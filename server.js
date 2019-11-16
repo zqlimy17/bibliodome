@@ -45,42 +45,45 @@ app.post("/book/:id/new", (req, res) => {
   request(url, { json: true }, (error, response, data) => {
     if (error) console.log(error.message);
     let newRating = 0;
-    Book.findOne({ id: req.body.id }, (err, count) => {
-      if (err) console.log(err.message);
-      if (count === 1) {
-        Book.findOne(
-          {
-            id: data.id
-          },
-          (err, book) => {
-            if (err) console.log(err.message);
-            newRating = (req.body.stars + book.rating) / book.reviewCount;
-            Book.findOneAndUpdate(
-              {
-                id: data.id
-              },
-              {
-                rating: newRating,
-                $inc: { ratingCount: 1 }
-              },
-              errr => {
-                if (errr) console.log(errr.message);
-              }
-            );
-          }
-        );
-      } else {
-        Book.create({
-          id: data.id,
-          title: data.volumeInfo.title,
-          description: data.volumeInfo.description,
-          img: data.volumeInfo.imageLinks.small,
-          rating: req.body.stars,
-          ratingCount: 1
-        });
-        res.redirect("/");
-      }
-    });
+    if (Book.findOne({ id: req.body.id }, { "_.id": 1 }).limit(1) !== null) {
+      Book.findOne(
+        {
+          id: data.id
+        },
+        (err, book) => {
+          if (err) console.log(err.message);
+          console.log(book.rating);
+          console.log(req.body.stars);
+          console.log(book.ratingCount);
+          newRating =
+            (parseFloat(req.body.stars) +
+              parseFloat(book.rating) * parseFloat(book.ratingCount)) /
+            (parseFloat(book.ratingCount, 16) + 1);
+          Book.findOneAndUpdate(
+            {
+              id: data.id
+            },
+            {
+              rating: newRating,
+              $inc: { ratingCount: 1 }
+            },
+            errr => {
+              if (errr) console.log(errr.message);
+            }
+          );
+        }
+      );
+    } else {
+      Book.create({
+        id: data.id,
+        title: data.volumeInfo.title,
+        description: data.volumeInfo.description,
+        img: data.volumeInfo.imageLinks.small,
+        rating: req.body.stars,
+        ratingCount: 1
+      });
+      res.redirect("/");
+    }
   });
 });
 
