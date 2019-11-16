@@ -1,0 +1,17 @@
+* {
+  outline: 1px solid black;
+  outline-offset: -1px;
+}
+
+body {
+  background: lightskyblue;
+}
+
+.card .card-description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  /* Number of lines displayed before it truncate */
+  overflow: hidden;
+}
+/*# sourceMappingURL=styles.css.map */
