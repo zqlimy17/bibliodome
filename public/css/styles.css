@@ -14,4 +14,8 @@ body {
   /* Number of lines displayed before it truncate */
   overflow: hidden;
 }
+
+.card .hax {
+  display: none;
+}
 /*# sourceMappingURL=styles.css.map */
