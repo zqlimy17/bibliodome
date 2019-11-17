@@ -1,9 +1,9 @@
 // DEPENDENCIES
 const express = require("express"),
-  request = require("request"),
   mongoose = require("mongoose"),
-  Book = require("./models/books/Books"),
   // User = require("./models/users/User"),
+  bookController = require("./controllers/book.js"),
+  userController = require("./controllers/user.js"),
   methodOverride = require("method-override"),
   apikey = "AIzaSyDoL5gz0KiFhLv23cCa2IrjI1F77cRtm6M",
   app = express(),
@@ -35,80 +35,12 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+// CONTROLLERS
+app.use(bookController);
+app.use(userController);
+
 app.get("/", (req, res) => {
   res.render("index.ejs");
-});
-
-app.post("/book/:id/new", (req, res) => {
-  let url = `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
-  console.log(url);
-  request(url, { json: true }, (error, response, data) => {
-    if (error) console.log(error.message);
-    let newRating = 0;
-    if (Book.findOne({ id: req.body.id }, { "_.id": 1 }).limit(1) !== null) {
-      Book.findOne(
-        {
-          id: data.id
-        },
-        (err, book) => {
-          if (err) console.log(err.message);
-          console.log(book.rating);
-          console.log(req.body.stars);
-          console.log(book.ratingCount);
-          newRating =
-            (parseFloat(req.body.stars) +
-              parseFloat(book.rating) * parseFloat(book.ratingCount)) /
-            (parseFloat(book.ratingCount, 16) + 1);
-          Book.findOneAndUpdate(
-            {
-              id: data.id
-            },
-            {
-              rating: newRating,
-              $inc: { ratingCount: 1 }
-            },
-            errr => {
-              if (errr) console.log(errr.message);
-            }
-          );
-        }
-      );
-    } else {
-      Book.create({
-        id: data.id,
-        title: data.volumeInfo.title,
-        description: data.volumeInfo.description,
-        img: data.volumeInfo.imageLinks.small,
-        rating: req.body.stars,
-        ratingCount: 1
-      });
-      res.redirect("/");
-    }
-  });
-});
-
-app.post("/book/:id/rate", (req, res) => {
-  let url = `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
-  console.log(url);
-  request(url, { json: true }, (err, response, data) => {
-    if (err) console.log(err.message);
-    res.render("book.ejs", {
-      data
-    });
-    // res.send(data);
-  });
-});
-
-app.post("/results/", (req, res) => {
-  let url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.title}+inauthor:${req.body.author}`;
-  console.log(url);
-  request(url, { json: true }, (err, response, data) => {
-    if (err) console.log(err.message);
-    res.render("searchresults.ejs", {
-      data
-    });
-    // res.send(data);
-  });
 });
 
 app.listen(PORT, () => {

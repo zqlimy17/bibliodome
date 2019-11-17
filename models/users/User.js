@@ -6,5 +6,5 @@ const userSchema = new Schema({
   ratingCount: { type: Number, default: 0 }
 });
 
-const Book = mongoose.model("Book", userSchema);
-module.exports = Book;
+const User = mongoose.model("User", userSchema);
+module.exports = User;

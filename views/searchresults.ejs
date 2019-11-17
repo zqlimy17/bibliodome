@@ -37,18 +37,6 @@
                                 </p>
                             </div>
                             <form action="/book/<%=data.items[i].id%>/rate" method="POST">
-                                <input class="hax" name="title" value="<%= data.items[i].volumeInfo.title %>" />
-                                <input class="hax" name="author" value="<%= data.items[i].volumeInfo.authors %>" />
-
-                                <input class="hax" name="description"
-                                    value="<%= data.items[i].volumeInfo.description %>" />
-                                <% if (data.items[i].volumeInfo.hasOwnProperty('imageLinks')) {
-                                    %>
-                                <input class="hax" name="img" value="<%= data.items[i].volumeInfo.title %>" />
-                                <%} else { %>
-                                <input class="hax" name="img"
-                                    value="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg" />
-                                <% } %>
                                 <button class="btn btn-success" type="submit">
                                     Rate this book!
                                 </button>
