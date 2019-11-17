@@ -27,4 +27,10 @@ sessions.post("/", (req, res) => {
   });
 });
 
+sessions.delete("/", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
+});
+
 module.exports = sessions;
