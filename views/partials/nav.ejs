@@ -3,7 +3,14 @@
     <div class="navbar-nav">
         <a class="nav-item nav-link" href="/">Home</a>
         <a class="nav-item nav-link disabled" href="#">Categories [Coming Soon]</a>
+
+        <% if (currentUser) { %>
+        <form action="/sessions?_method=DELETE" method="POST">
+            <input type="submit" value="Logout" class="btn" />
+        </form>
+        <% } else { %>
         <a class="nav-item nav-link" href="/sessions/login">Login</a>
         <a class="nav-item nav-link" href="/users/signup">Signup</a>
+        <% } %>
     </div>
 </nav>

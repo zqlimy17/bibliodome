@@ -1,9 +1,12 @@
 const express = require("express");
 const sessions = express.Router();
+const bcrypt = require("bcrypt");
 const User = require("../models/users/User");
 
 sessions.get("/login", (req, res) => {
-  res.render("../views/sessions/login.ejs");
+  res.render("../views/sessions/login.ejs", {
+    currentUser: req.session.currentUser
+  });
 });
 
 sessions.post("/", (req, res) => {
@@ -16,10 +19,9 @@ sessions.post("/", (req, res) => {
     } else if (!foundUser) {
       res.send("user not found!");
     } else {
-      if (req.body.password == foundUser.password) {
+      if (bcrypt.compareSync(req.body.password, foundUser.password)) {
         req.session.currentUser = foundUser;
         res.redirect("/");
-        // if passwords don't match, handle the error
       } else {
         res.send('<a href="/">wrong password</a>');
       }

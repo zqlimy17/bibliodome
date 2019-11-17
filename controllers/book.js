@@ -60,15 +60,20 @@ router.post("/:id/new", async (req, res) => {
 });
 
 router.post("/:id/rate", (req, res) => {
-  let url = `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
-  //   console.log(url);
-  request(url, { json: true }, (err, response, data) => {
-    if (err) console.log(err.message);
-    res.render("../views/books/book.ejs", {
-      data
+  if (req.session.currentUser) {
+    let url = `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
+    //   console.log(url);
+    request(url, { json: true }, (err, response, data) => {
+      if (err) console.log(err.message);
+      res.render("../views/books/book.ejs", {
+        data,
+        currentUser: req.session.currentUser
+      });
+      // res.send(data);
     });
-    // res.send(data);
-  });
+  } else {
+    res.redirect("/sessions/login");
+  }
 });
 
 router.post("/results/", (req, res) => {
@@ -77,7 +82,8 @@ router.post("/results/", (req, res) => {
   request(url, { json: true }, (err, response, data) => {
     if (err) console.log(err.message);
     res.render("../views/books/searchresults.ejs", {
-      data
+      data,
+      currentUser: req.session.currentUser
     });
     // res.send(data);
   });
