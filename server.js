@@ -4,13 +4,16 @@ const express = require("express"),
   // User = require("./models/users/User"),
   bookController = require("./controllers/book.js"),
   userController = require("./controllers/user.js"),
+  sessionsController = require("./controllers/sessions.js"),
+  session = require("express-session"),
   methodOverride = require("method-override"),
   apikey = "AIzaSyDoL5gz0KiFhLv23cCa2IrjI1F77cRtm6M",
-  app = express(),
-  PORT = 17000;
+  app = express();
+require("dotenv").config();
+const PORT = process.env.PORT;
 
 // Global configuration
-const mongoURI = "mongodb://localhost:27017/" + "book";
+const mongoURI = "mongodb://localhost:27017/book";
 const db = mongoose.connection;
 
 // Mongoose Deprecation Warnings
@@ -21,7 +24,9 @@ mongoose.set("useUnifiedTopology", true);
 
 //Connect to Mongoose
 mongoose.connect(mongoURI, { useNewUrlParser: true }, () => {
-  console.log("the connection with mongod is established");
+  console.log("\n ~~~~~ \n");
+  console.log("The connection with mongod is established.");
+  console.log("\n ~~~~~ \n");
 });
 
 // Connection Error/Success
@@ -34,13 +39,23 @@ db.on("disconnected", () => console.log("mongo disconnected"));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 // CONTROLLERS
-app.use(bookController);
-app.use(userController);
+app.use("/books", bookController);
+app.use("/users", userController);
+app.use("/sessions", sessionsController);
 
 app.get("/", (req, res) => {
-  res.render("index.ejs");
+  res.render("index.ejs", {
+    currentUser: req.session.currentUser
+  });
 });
 
 app.listen(PORT, () => {

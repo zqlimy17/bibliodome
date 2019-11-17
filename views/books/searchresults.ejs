@@ -2,12 +2,12 @@
 <html lang="en">
 
 <head>
-    <% include ./partials/head.ejs %>
+    <% include ../partials/head.ejs %>
     <title>Bibliodome | Where Words Come To Life</title>
 </head>
 
 <body>
-    <% include ./partials/nav.ejs %>
+    <% include ../partials/nav.ejs %>
     <div class="container text-center">
         <h1>Search Results</h1>
         <div class="row">
@@ -36,7 +36,7 @@
                                     <%= data.items[i].volumeInfo.authors %>
                                 </p>
                             </div>
-                            <form action="/book/<%=data.items[i].id%>/rate" method="POST">
+                            <form action="/books/<%=data.items[i].id%>/rate" method="POST">
                                 <button class="btn btn-success" type="submit">
                                     Rate this book!
                                 </button>

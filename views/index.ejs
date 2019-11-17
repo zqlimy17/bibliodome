@@ -11,13 +11,18 @@
     <div class="container text-center">
 
         <h1>Bibliodome: Where Words Come To Life</h1>
+        <% if(currentUser) { %>
+        Welcome <%=currentUser.username%>!
+        <a class="btn" href="/sessions/">Log Out</a>
+        </h1>
+        <% } %>
         <div class="row">
             <div class="col-sm-6">
                 <h2>Popular</h2>
             </div>
             <div class="col-sm-6">
                 <h2>Search</h2>
-                <form action="/results" method="POST">
+                <form action="/books/results" method="POST">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">Book Title</span>

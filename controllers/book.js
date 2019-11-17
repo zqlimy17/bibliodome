@@ -3,7 +3,7 @@ const Book = require("../models/books/Books");
 const router = express.Router();
 const request = require("request");
 
-router.post("/book/:id/new", async (req, res) => {
+router.post("/:id/new", async (req, res) => {
   let url = await `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
   console.log(url);
   await request(url, { json: true }, async (error, response, data) => {
@@ -59,12 +59,12 @@ router.post("/book/:id/new", async (req, res) => {
   });
 });
 
-router.post("/book/:id/rate", (req, res) => {
+router.post("/:id/rate", (req, res) => {
   let url = `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
   //   console.log(url);
   request(url, { json: true }, (err, response, data) => {
     if (err) console.log(err.message);
-    res.render("book.ejs", {
+    res.render("../views/books/book.ejs", {
       data
     });
     // res.send(data);
@@ -76,7 +76,7 @@ router.post("/results/", (req, res) => {
   //   console.log(url);
   request(url, { json: true }, (err, response, data) => {
     if (err) console.log(err.message);
-    res.render("searchresults.ejs", {
+    res.render("../views/books/searchresults.ejs", {
       data
     });
     // res.send(data);

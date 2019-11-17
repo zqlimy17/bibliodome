@@ -1,0 +1,30 @@
+const express = require("express");
+const sessions = express.Router();
+const User = require("../models/users/User");
+
+sessions.get("/login", (req, res) => {
+  res.render("../views/sessions/login.ejs");
+});
+
+sessions.post("/", (req, res) => {
+  User.findOne({ username: req.body.username }, (err, foundUser) => {
+    // if db error handle the db error
+    if (err) {
+      console.log(err);
+      res.send("oops something went wrong");
+      // if user not found, handle the error
+    } else if (!foundUser) {
+      res.send("user not found!");
+    } else {
+      if (req.body.password == foundUser.password) {
+        req.session.currentUser = foundUser;
+        res.redirect("/");
+        // if passwords don't match, handle the error
+      } else {
+        res.send('<a href="/">wrong password</a>');
+      }
+    }
+  });
+});
+
+module.exports = sessions;

@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-    <% include ./partials/head.ejs %>
+    <% include ../partials/head.ejs %>
     <title>
         <%=data.volumeInfo.title%> | Bibliodome | Where Words Come To Life
     </title>
 </head>
 
 <body>
-    <% include ./partials/nav.ejs %>
+    <% include ../partials/nav.ejs %>
     <div class="container text-center">
         <h1><%-data.volumeInfo.title%></h1>
         <div class="row">
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <form action="/book/<%=data.id%>/new" method="POST">
+    <form action="/books/<%=data.id%>/new" method="POST">
         <label for="name">Your Name</label>
         <input name="name" type="text" placeholder="Your Name" />
         <label for="review">Your Review:</label>
