@@ -4,63 +4,41 @@
 <head>
     <% include ../partials/head.ejs %>
     <title>
-        <%=data.volumeInfo.title%> | Bibliodome | Where Words Come To Life
+        <%=book.title%> | Bibliodome | Where Words Come To Life
     </title>
 </head>
 
 <body>
     <% include ../partials/nav.ejs %>
     <div class="container text-center">
-        <h1><%-data.volumeInfo.title%></h1>
+        <h1><%-book.title%></h1>
         <div class="row">
             <div class="col-sm-4">
-                <img src="<%=data.volumeInfo.imageLinks.thumbnail%>" />
+                <img src="<%=book.img%>" />
             </div>
             <div class="col-sm-8">
-                <h2><%-data.volumeInfo.authors%></h2>
+                <h2><%-book.authors%></h2>
                 <p class="book-description">
-                    <%-data.volumeInfo.description%>
+                    <%-book.description%>
                 </p>
             </div>
         </div>
-    </div>
-    <form action="/books/<%=data.id%>/new" method="POST">
-        <label for="review">Your Review:</label>
-        <textarea name="review" type="text" placeholder="Your Review"></textarea>
-        <div class="rating">
-            <label>
-                <input type="radio" name="stars" value="1" />
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="stars" value="2" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="stars" value="3" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="stars" value="4" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="stars" value="5" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
+        <form action="/books/<%=book.id%>/rate" method="POST">
+            <button class="btn btn-success" type="submit">
+                Rate this book!
+            </button>
+        </form>
+        <div>
+            <h2>User Reviews</h2>
+            <% for (let i = 0; i < book.reviews.length; i++) { %>
+            <p>Review: <%= book.reviews[i].review %></p>
+            <p>Rating: <%= book.reviews[i].rating %></p>
+            <p>By: <%= book.reviews[i].reviewer %></p>
+
+            <% } %>
         </div>
-        <button type="submit">Submit</button>
-    </form>
+    </div>
+
 </body>
 
 </html>

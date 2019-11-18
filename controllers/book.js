@@ -17,6 +17,21 @@ books.get("/popular", async (req, res) => {
   });
 });
 
+books.get("/:id", (req, res) => {
+  Book.findOne({ id: req.params.id }, (err, book) => {
+    console.log("\n BOOK REVIEW \n");
+    console.log(book);
+    console.log(book.title);
+    console.log("\n BOOK REVIEW \n");
+
+    if (err) console.log(err);
+    res.render("../views/books/book.ejs", {
+      book,
+      currentUser: req.session.currentUser
+    });
+  });
+});
+
 books.post("/:id/new", async (req, res) => {
   let url = await `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
   console.log(url);
@@ -54,7 +69,7 @@ books.post("/:id/new", async (req, res) => {
               $push: {
                 reviews: {
                   review: req.body.review,
-                  reviewer: req.session.currentUser._id
+                  reviewer: req.session.currentUser.username
                 }
               }
             },
@@ -77,7 +92,8 @@ books.post("/:id/new", async (req, res) => {
         ratingCount: 1,
         reviews: {
           review: req.body.review,
-          reviewer: req.session.currentUser._id
+          reviewer: req.session.currentUser.username,
+          rating: req.body.stars
         }
       });
     }
@@ -91,7 +107,7 @@ books.post("/:id/rate", (req, res) => {
     console.log(url);
     request(url, { json: true }, (err, response, data) => {
       if (err) console.log(err.message);
-      res.render("../views/books/book.ejs", {
+      res.render("../views/books/rate.ejs", {
         data,
         currentUser: req.session.currentUser
       });

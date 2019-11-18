@@ -56,7 +56,7 @@ app.use("/sessions", sessionsController);
 app.get("/", async (req, res) => {
   let bookData = Book.find({})
     .sort({ rating: -1 })
-    .limit(10);
+    .limit(5);
   bookData.find({}, async (err, book) => {
     if (err) console.log(err.message);
     console.log("\n BOOK DATA \n");

@@ -15,28 +15,30 @@
             <div class="col-sm-6">
                 <h2>Popular</h2>
                 <% for (let i = 0; i < book.length; i++) { %>
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row no-gutters">
-                        <div class="col-md-4">
-                            <img src="<%= book[i].img %>" class="card-img" />
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <%= book[i].title %>
-                                </h5>
-                                <p class="card-text card-description">
-                                    <%= book[i].description %>
-                                </p>
-                                <p class="card-text">
-                                    <%= book[i].authors %>
-                                </p>
-                                <p><%=book[i].rating%>/5 (<%= book[i].ratingCount %> reviews)</p>
+                <a href="/books/<%= book[i].id %>">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <img src="<%= book[i].img %>" class="card-img" />
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%= book[i].title %>
+                                    </h5>
+                                    <p class="card-text card-description">
+                                        <%= book[i].description %>
+                                    </p>
+                                    <p class="card-text">
+                                        <%= book[i].authors %>
+                                    </p>
+                                    <p><%=book[i].rating%>/5 (<%= book[i].ratingCount %> reviews)</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <% if (i === 9) { %>
+                </a>
+                <% if (i === 4) { %>
                 <a href="/books/popular">View More</a>
                 <% } %>
                 <% } %>
