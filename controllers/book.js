@@ -1,9 +1,9 @@
 const express = require("express");
 const Book = require("../models/books/Books");
-const router = express.Router();
+const books = express.Router();
 const request = require("request");
 
-router.post("/:id/new", async (req, res) => {
+books.post("/:id/new", async (req, res) => {
   let url = await `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
   console.log(url);
   await request(url, { json: true }, async (error, response, data) => {
@@ -58,7 +58,7 @@ router.post("/:id/new", async (req, res) => {
         id: data.id,
         title: data.volumeInfo.title,
         description: data.volumeInfo.description,
-        img: data.volumeInfo.imageLinks.small,
+        img: data.volumeInfo.imageLinks.thumbnail,
         rating: req.body.stars,
         ratingCount: 1,
         reviews: {
@@ -71,10 +71,10 @@ router.post("/:id/new", async (req, res) => {
   });
 });
 
-router.post("/:id/rate", (req, res) => {
+books.post("/:id/rate", (req, res) => {
   if (req.session.currentUser) {
     let url = `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
-    //   console.log(url);
+    console.log(url);
     request(url, { json: true }, (err, response, data) => {
       if (err) console.log(err.message);
       res.render("../views/books/book.ejs", {
@@ -88,7 +88,7 @@ router.post("/:id/rate", (req, res) => {
   }
 });
 
-router.post("/results/", (req, res) => {
+books.post("/results/", (req, res) => {
   let url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.title}+inauthor:${req.body.author}`;
   //   console.log(url);
   request(url, { json: true }, (err, response, data) => {
@@ -101,4 +101,4 @@ router.post("/results/", (req, res) => {
   });
 });
 
-module.exports = router;
+module.exports = books;

@@ -1,7 +1,8 @@
 // DEPENDENCIES
 const express = require("express"),
   mongoose = require("mongoose"),
-  // User = require("./models/users/User"),
+  User = require("./models/users/User"),
+  Book = require("./models/books/Books"),
   bookController = require("./controllers/book.js"),
   userController = require("./controllers/user.js"),
   sessionsController = require("./controllers/sessions.js"),
@@ -52,11 +53,22 @@ app.use("/books", bookController);
 app.use("/users", userController);
 app.use("/sessions", sessionsController);
 
-app.get("/", (req, res) => {
-  res.render("index.ejs", {
-    currentUser: req.session.currentUser
+app.get("/", async (req, res) => {
+  let bookData = Book.find({})
+    .sort({ rating: -1 })
+    .limit(10);
+  bookData.find({}, async (err, book) => {
+    if (err) console.log(err.message);
+    console.log("\n BOOK DATA \n");
+    console.log(book);
+    console.log("\n BOOK DATA \n");
+
+    res.render("index.ejs", {
+      book,
+      currentUser: req.session.currentUser
+    });
+    console.log(req.session.currentUser);
   });
-  console.log(req.session.currentUser);
 });
 
 app.listen(PORT, () => {

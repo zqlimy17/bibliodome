@@ -13,20 +13,18 @@
     <div class="container text-center">
         <h1><%-data.volumeInfo.title%></h1>
         <div class="row">
-            <div class="col-sm-6">
-                <img src="<%=data.volumeInfo.imageLinks.small%>" />
+            <div class="col-sm-4">
+                <img src="<%=data.volumeInfo.imageLinks.thumbnail%>" />
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
                 <h2><%-data.volumeInfo.authors%></h2>
-                <p>
+                <p class="book-description">
                     <%-data.volumeInfo.description%>
                 </p>
             </div>
         </div>
     </div>
     <form action="/books/<%=data.id%>/new" method="POST">
-        <label for="name">Your Name</label>
-        <input name="name" type="text" placeholder="Your Name" />
         <label for="review">Your Review:</label>
         <textarea name="review" type="text" placeholder="Your Review"></textarea>
         <div class="rating">
