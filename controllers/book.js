@@ -3,6 +3,20 @@ const Book = require("../models/books/Books");
 const books = express.Router();
 const request = require("request");
 
+books.get("/popular", async (req, res) => {
+  let bookData = Book.find({})
+    .sort({ rating: -1 })
+    .limit(20);
+  bookData.find({}, async (err, book) => {
+    if (err) console.log(err.message);
+    res.render("../views/books/popular.ejs", {
+      book,
+      currentUser: req.session.currentUser
+    });
+    console.log(req.session.currentUser);
+  });
+});
+
 books.post("/:id/new", async (req, res) => {
   let url = await `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
   console.log(url);
