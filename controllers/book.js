@@ -15,6 +15,10 @@ router.post("/:id/new", async (req, res) => {
     // console.log(result);
     // console.log("\n\n~~~~~~\n\n");
     if (result) {
+      console.log("\n\n CURRENT USER IS \n\n");
+      console.log(req.session.currentUser);
+      console.log("\n\n CURRENT USER IS \n\n");
+
       Book.findOne(
         {
           id: data.id
@@ -33,7 +37,12 @@ router.post("/:id/new", async (req, res) => {
             {
               rating: newRating,
               $inc: { ratingCount: 1 },
-              $push: { reviews: req.body.review }
+              $push: {
+                reviews: {
+                  review: req.body.review,
+                  reviewer: req.session.currentUser._id
+                }
+              }
             },
             errr => {
               if (errr) console.log(errr.message);
@@ -52,7 +61,10 @@ router.post("/:id/new", async (req, res) => {
         img: data.volumeInfo.imageLinks.small,
         rating: req.body.stars,
         ratingCount: 1,
-        $push: { reviews: req.body.review }
+        reviews: {
+          review: req.body.review,
+          reviewer: req.session.currentUser._id
+        }
       });
     }
     res.redirect("/");

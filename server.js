@@ -56,6 +56,7 @@ app.get("/", (req, res) => {
   res.render("index.ejs", {
     currentUser: req.session.currentUser
   });
+  console.log(req.session.currentUser);
 });
 
 app.listen(PORT, () => {
