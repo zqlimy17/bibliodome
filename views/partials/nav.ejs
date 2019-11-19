@@ -8,6 +8,7 @@
         <form action="/sessions?_method=DELETE" method="POST">
             <input type="submit" value="Logout" class="btn" />
         </form>
+        <a class="nav-item nav-link" href="/users/profile/<%=currentUser.username%>">Profile</a>
         <% } else { %>
         <a class="nav-item nav-link" href="/sessions/login">Login</a>
         <a class="nav-item nav-link" href="/users/signup">Signup</a>

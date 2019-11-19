@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head.ejs %>
+    <title>Bibliodome | Where Words Come To Life</title>
+</head>
+
+<body>
+    <% include ../partials/nav.ejs %>
+    <div class="container text-center">
+
+        <h1>Welcome, <%=currentUser.name%>!</h1>
+        <div class="row">
+            <div class="col sm-4">
+                <p>Name: <%=currentUser.name%></p>
+                <p>Username: <%= currentUser.username%></p>
+                <a href="/users/profile/<%=currentUser.username%>/edit">Edit Profile</a>
+            </div>
+            <div class="col sm-8">
+
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
