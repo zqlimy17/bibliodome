@@ -3,8 +3,10 @@ const express = require("express"),
   mongoose = require("mongoose"),
   User = require("./models/users/User"),
   Book = require("./models/books/Books"),
+  Review = require("./models/reviews/Reviews"),
   bookController = require("./controllers/book.js"),
   userController = require("./controllers/user.js"),
+  reviewController = require("./controllers/reviews.js"),
   sessionsController = require("./controllers/sessions.js"),
   session = require("express-session"),
   methodOverride = require("method-override"),
@@ -52,6 +54,7 @@ app.use(
 app.use("/books", bookController);
 app.use("/users", userController);
 app.use("/sessions", sessionsController);
+app.use("/reviews", reviewController);
 
 app.get("/", async (req, res) => {
   let bookData = Book.find({})
@@ -59,15 +62,11 @@ app.get("/", async (req, res) => {
     .limit(5);
   bookData.find({}, async (err, book) => {
     if (err) console.log(err.message);
-    console.log("\n BOOK DATA \n");
-    console.log(book);
-    console.log("\n BOOK DATA \n");
-
     res.render("index.ejs", {
       book,
       currentUser: req.session.currentUser
     });
-    console.log(req.session.currentUser);
+    // console.log(req.session.currentUser);
   });
 });
 

@@ -25,14 +25,14 @@
         </div>
 
         <% let found; %>
-        <% for (let i = 0; i < book.reviews.length; i++) { %>
+        <% for (let i = 0; i < reviews.length; i++) { %>
         <% if (currentUser) {%>
-        <% if (book.reviews[i].reviewer === currentUser.username) {%>
+        <% if (reviews[i].reviewer === currentUser._id) {%>
         <% found = true; %>
         <%}%>
             <%}%>
         <%}%>
-        <% console.log(found)%>
+        <% console.log(`WHAT IS FOUND ${found}`)%>
         <% if (found) {%>
         <p>You have already rated this book!</p>
         <button class="btn btn-success disabled" type="submit">
@@ -49,12 +49,13 @@
         <% } %>
         <div>
             <h2>User Reviews</h2>
-            <% for (let i = 0; i < book.reviews.length; i++) { %>
-            <p>Review: <%= book.reviews[i].review %></p>
-            <p>Rating: <%= book.reviews[i].rating %></p>
-            <p>By: <%= book.reviews[i].reviewer %></p>
+            <% console.log(reviews) %>
+            <% for (let i = 0; i < reviews.length; i++) { %>
+            <p>Review: <%= reviews[i].review %></p>
+            <p>Rating: <%= reviews[i].rating %></p>
+            <p>By: <%= reviews[i].reviewer.name %></p>
             <% if (currentUser) {%>
-            <% if (book.reviews[i].reviewer === currentUser.username) {%>
+            <% if (reviews[i].reviewer === currentUser._id) {%>
             <button class='btn'>
                 <a href="/books/<%=book.id%>/edit-review">Edit Review</a>
             </button>
