@@ -24,25 +24,37 @@ reviews.post("/:id/new", async (req, res) => {
       });
     });
   } else {
-    newRating =
-      (parseFloat(req.body.stars) +
-        parseFloat(result.rating) * parseFloat(result.ratingCount)) /
-      (parseFloat(result.ratingCount) + 1);
+    console.log(req.body.stars);
+    let newRating;
+    if (req.body.stars !== undefined) {
+      newRating =
+        (parseFloat(req.body.stars) +
+          parseFloat(result.rating) * parseFloat(result.ratingCount)) /
+        (parseFloat(result.ratingCount) + 1);
+    } else {
+      newRating =
+        (1 + parseFloat(result.rating) * parseFloat(result.ratingCount)) /
+        (parseFloat(result.ratingCount) + 1);
+    }
+
     Book.findOneAndUpdate(
-      { id: req.params.id },
+      {
+        id: req.params.id
+      },
       {
         rating: newRating,
         $inc: { ratingCount: 1 }
-      }
-    ),
+      },
       errr => {
         if (errr) console.log(errr.message);
-      };
+      }
+    );
   }
 
-  Book.findOne({ id: req.params.id }, (err, book) => {
+  Book.findOne({ id: req.params.id }, async (err, book) => {
+    await console.log(book);
     if (err) console.log(err.message);
-    Review.create({
+    await Review.create({
       rating: req.body.stars,
       review: req.body.review,
       reviewer: req.session.currentUser._id,
@@ -50,7 +62,7 @@ reviews.post("/:id/new", async (req, res) => {
     });
   });
 
-  res.redirect("/");
+  await res.redirect("/");
 });
 
 module.exports = reviews;
