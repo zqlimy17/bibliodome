@@ -19,10 +19,10 @@ books.get("/popular", async (req, res) => {
 
 books.get("/:id", (req, res) => {
   Book.findOne({ id: req.params.id }, (err, book) => {
-    console.log("\n BOOK REVIEW \n");
-    console.log(book);
-    console.log(book.title);
-    console.log("\n BOOK REVIEW \n");
+    // console.log("\n BOOK REVIEW \n");
+    // console.log(book);
+    // console.log(book.title);
+    // console.log("\n BOOK REVIEW \n");
 
     if (err) console.log(err);
     res.render("../views/books/book.ejs", {
@@ -30,6 +30,20 @@ books.get("/:id", (req, res) => {
       currentUser: req.session.currentUser
     });
   });
+});
+
+books.get("/:id/edit-review", (req, res) => {
+  if (req.session.currentUser) {
+    Book.findOne({ id: req.params.id }, (err, book) => {
+      if (err) console.log(err.message);
+      res.render("../views/books/edit-review.ejs", {
+        currentUser: req.session.currentUser,
+        book
+      });
+    });
+  } else {
+    res.redirect("/sessions/login");
+  }
 });
 
 books.post("/:id/new", async (req, res) => {
@@ -80,9 +94,9 @@ books.post("/:id/new", async (req, res) => {
         }
       );
     } else {
-      //   console.log("\n\n~~~~~~\n\n");
-      //   console.log(`Creating New Book`);
-      //   console.log("\n\n~~~~~~\n\n");
+      console.log("\n\n~~~~~~\n\n");
+      console.log(`Creating New Book`);
+      console.log("\n\n~~~~~~\n\n");
       Book.create({
         id: data.id,
         title: data.volumeInfo.title,
@@ -90,6 +104,7 @@ books.post("/:id/new", async (req, res) => {
         img: data.volumeInfo.imageLinks.thumbnail,
         rating: req.body.stars,
         ratingCount: 1,
+        author: data.volumeInfo.authors,
         reviews: {
           review: req.body.review,
           reviewer: req.session.currentUser.username,
@@ -129,6 +144,26 @@ books.post("/results/", (req, res) => {
     });
     // res.send(data);
   });
+});
+
+books.put("/:id/edit", (req, res) => {
+  console.log("\n\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+  console.log(req.session.currentUser.username);
+  Book.updateOne(
+    { id: req.params.id },
+    {
+      $set: {
+        "reviews.review": req.body.review,
+        "reviews.rating": req.body.stars
+      }
+    },
+    {
+      arrayFilters: [{ "reviews.reviewer": req.session.currentUser.username }]
+    }
+  );
+  res.redirect("/books/" + req.params.id);
+  console.log("BOOK UPDATED!");
 });
 
 module.exports = books;
