@@ -24,13 +24,29 @@
             </div>
         </div>
 
+        <% let found; %>
+        <% for (let i = 0; i < book.reviews.length; i++) { %>
+        <% if (currentUser) {%>
+        <% if (book.reviews[i].reviewer === currentUser.username) {%>
+        <% found = true; %>
+        <%}%>
+            <%}%>
+        <%}%>
+        <% console.log(found)%>
+        <% if (found) {%>
+        <p>You have already rated this book!</p>
+        <button class="btn btn-success disabled" type="submit">
+            Rate this book!
+        </button>
+        <a href="/books/<%=book.id%>/edit-review">Edit Review</a>
+        <% } else {%>
         <form action="/books/<%=book.id%>/rate" method="POST">
             <button class="btn btn-success" type="submit">
                 Rate this book!
             </button>
         </form>
 
-
+        <% } %>
         <div>
             <h2>User Reviews</h2>
             <% for (let i = 0; i < book.reviews.length; i++) { %>
