@@ -154,12 +154,34 @@ books.put("/:id/edit", (req, res) => {
     { id: req.params.id },
     {
       $set: {
-        "reviews.review": req.body.review,
-        "reviews.rating": req.body.stars
+        "reviews.$[elem].review": req.body.review,
+        "reviews.$[elem].rating": req.body.stars
       }
     },
     {
-      arrayFilters: [{ "reviews.reviewer": req.session.currentUser.username }]
+      arrayFilters: [{ "elem.reviewer": req.session.currentUser.username }]
+    },
+    errr => {
+      if (errr) console.log(errr.message);
+    }
+  );
+  res.redirect("/books/" + req.params.id);
+  console.log("BOOK UPDATED!");
+});
+
+books.delete("/:id", (req, res) => {
+  Book.updateOne(
+    { id: req.params.id },
+    {
+      $pull: {
+        reviews: {
+          reviewer: req.session.currentUser.username
+        }
+      }
+    },
+    { upsert: false, multi: true },
+    errr => {
+      if (errr) console.log(errr.message);
     }
   );
   res.redirect("/books/" + req.params.id);
