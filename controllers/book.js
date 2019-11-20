@@ -29,6 +29,10 @@ books.get("/:id", (req, res) => {
     Review.find({ book: foundBook._id })
       .populate("reviewer")
       .exec((err, reviews) => {
+        console.log("\n\n ````````````````````````````````` \n\n");
+        console.log(reviews.length);
+        console.log("\n\n ````````````````````````````````` \n\n");
+
         if (err) console.log(err.message);
         console.log(reviews);
         res.render("../views/books/book.ejs", {

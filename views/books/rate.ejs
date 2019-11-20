@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <form action="/reviews/<%=data.id%>/new" method="POST">
+    <form action="/reviews/<%=data.id%>/new?_method=PUT" method="POST">
         <label for="review">Your Review:</label>
         <textarea name="review" type="text" placeholder="Your Review"></textarea>
         <div class="rating">

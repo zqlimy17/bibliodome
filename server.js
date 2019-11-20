@@ -16,7 +16,7 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 
 // Global configuration
-const mongoURI = "mongodb://localhost:27017/biblidome";
+const mongoURI = "mongodb://localhost:27017/bibliodome";
 const db = mongoose.connection;
 
 // Mongoose Deprecation Warnings

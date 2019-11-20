@@ -24,16 +24,9 @@
             </div>
         </div>
 
-        <% let found; %>
         <% for (let i = 0; i < reviews.length; i++) { %>
         <% if (currentUser) {%>
-        <% if (reviews[i].reviewer === currentUser._id) {%>
-        <% found = true; %>
-        <%}%>
-            <%}%>
-        <%}%>
-        <% console.log(`WHAT IS FOUND ${found}`)%>
-        <% if (found) {%>
+        <% if (reviews[i].reviewer._id === currentUser._id) {%>
         <p>You have already rated this book!</p>
         <button class="btn btn-success disabled" type="submit">
             Rate this book!
@@ -45,7 +38,8 @@
                 Rate this book!
             </button>
         </form>
-
+        <% } %>
+        <% } %>
         <% } %>
         <div>
             <h2>User Reviews</h2>
