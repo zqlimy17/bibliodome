@@ -11,8 +11,11 @@ users.get("/signup", (req, res) => {
 });
 
 users.get("/profile/:username", (req, res) => {
-  res.render("../views/users/userprofile.ejs", {
-    currentUser: req.session.currentUser
+  User.findOne({ _id: req.session.currentUser._id }, (err, user) => {
+    if (err) console.log(err.message);
+    res.render("../views/users/userprofile.ejs", {
+      currentUser: user
+    });
   });
 });
 
@@ -44,7 +47,7 @@ users.post("/", (req, res) => {
 
 users.put("/:id/edit", (req, res) => {
   User.findByIdAndUpdate(req.params.id, req.body, (err, foundUser) => {
-    res.send("updating user");
+    res.redirect("/users/profile/" + req.session.currentUser.username);
     // res.redirect("/users/profile/" + req.session.currentUser.username);
   });
 });

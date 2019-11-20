@@ -95,4 +95,12 @@ reviews.put("/:id/new", async (req, res) => {
   res.redirect("/");
 });
 
+reviews.delete("/:id/:rd", (req, res) => {
+  Review.findOneAndDelete({ _id: req.params.id }, err => {
+    if (err) console.log(err.message);
+    console.log("Review has been deleted!");
+  });
+  res.redirect("/books/" + req.params.rd);
+});
+
 module.exports = reviews;

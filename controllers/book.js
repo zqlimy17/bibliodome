@@ -136,23 +136,4 @@ books.post("/results/", (req, res) => {
   });
 });
 
-books.delete("/:id", (req, res) => {
-  Book.updateOne(
-    { id: req.params.id },
-    {
-      $pull: {
-        reviews: {
-          reviewer: req.session.currentUser.username
-        }
-      }
-    },
-    { upsert: false, multi: true },
-    errr => {
-      if (errr) console.log(errr.message);
-    }
-  );
-  res.redirect("/books/" + req.params.id);
-  console.log("BOOK UPDATED!");
-});
-
 module.exports = books;
