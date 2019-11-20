@@ -29,7 +29,7 @@ sessions.post("/", (req, res) => {
   });
 });
 
-sessions.delete("/", (req, res) => {
+sessions.get("/logout", (req, res) => {
   req.session.destroy(() => {
     res.redirect("/");
   });

@@ -7,33 +7,45 @@
 </head>
 
 <body>
-    <% include ./partials/nav.ejs %>
-    <div class="container text-center">
-
-        <h1>Bibliodome: Where Words Come To Life</h1>
+    <div class="container center-align">
+        <% include ./partials/nav.ejs %>
+        <h2 id="subtitle">Where Words Come To Life</h2>
+        <div class="teal lighten-5 z-depth-5">
+            <h3>Search the Bibliodome Library</h3>
+            <div class="row">
+                <form class="col s12" action="/books/results" method="POST">
+                    <div class="input-field col s6">
+                        <input type="text" name="title" class="validate" id="title">
+                        <label for="title">Book Title</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input type="text" name="author" id="author">
+                        <label for="title">Book Author</label>
+                    </div>
+                    <div class="col s2 valign-wrapper">
+                        <p>
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Search
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="row">
-            <div class="col-sm-6">
-                <h2>Popular</h2>
+            <div class="col s12">
+                <h2 class="header">Top Rated Books</h2>
                 <% for (let i = 0; i < book.length; i++) { %>
-                <a href="/books/<%= book[i].id %>">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row no-gutters">
-                            <div class="col-md-4">
-                                <img src="<%= book[i].img %>" class="card-img" />
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%= book[i].title %>
-                                    </h5>
-                                    <p class="card-text card-description">
-                                        <%= book[i].description %>
-                                    </p>
-                                    <p class="card-text">
-                                        <%= book[i].author %>
-                                    </p>
-                                    <p><%=book[i].rating%>/5 (<%= book[i].ratingCount %> reviews)</p>
-                                </div>
+                <a href="/books/<%=book[i].id%>/">
+                    <div class="card horizontal teal lighten-5">
+                        <div class="card-image">
+                            <img src="<%= book[i].img %>">
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <p class="book-description"><%= book[i].description %></p>
+                                <h5>Author: <%= book[i].author %></h5>
+                                <h6><%= book[i].rating %>/5 Stars (<%= book[i].ratingCount %> reviews)</h6>
                             </div>
                         </div>
                     </div>
@@ -43,30 +55,11 @@
                 <% } %>
                 <% } %>
             </div>
-            <div class="col-sm-6">
-                <h2>Search</h2>
-                <form action="/books/results" method="POST">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Book Title</span>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Default"
-                            aria-describedby="inputGroup-sizing-default" name="title">
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Book Author</span>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Default"
-                            aria-describedby="inputGroup-sizing-default" name="author">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-
-                </form>
-            </div>
         </div>
-
     </div>
+
+    <% include ./partials/footer.ejs %>
+
 </body>
 
 </html>

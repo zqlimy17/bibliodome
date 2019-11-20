@@ -1,29 +1,14 @@
-* {
-    outline: 1px solid black;
-    outline-offset: -1px;
-}
-
 body {
-    background: lightskyblue;
+    background-color: #f9fbe7;
+
 }
 
-.card {
-    .card-description {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 4;
-        /* Number of lines displayed before it truncate */
-        overflow: hidden;
-    }
+#subtitle {
+    font-size: 1.5rem;
+    font-style: italic;
 }
 
-.book-description {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 8;
-    /* Number of lines displayed before it truncate */
-    overflow: hidden;
-}
+
 
 .rating {
     display: inline-block;
