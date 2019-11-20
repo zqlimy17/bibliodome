@@ -4,6 +4,46 @@ const Book = require("../models/books/Books");
 const reviews = express.Router();
 const request = require("request");
 
+reviews.get("/:id/edit-review", (req, res) => {
+  if (req.session.currentUser) {
+    Book.findOne({ id: req.params.id }, (err, book) => {
+      if (err) console.log(err.message);
+      res.render("../views/books/edit-review.ejs", {
+        currentUser: req.session.currentUser,
+        book
+      });
+    });
+  } else {
+    res.redirect("/sessions/login");
+  }
+});
+
+reviews.put("/:id/edit", (req, res) => {
+  console.log("CURRENT USER ID IS: " + req.session.currentUser._id);
+  console.log("CURRENT USER ID IS: " + req.session.currentUser._id);
+  Book.findOne({ id: req.params.id }, (err, foundBook) => {
+    console.log(foundBook);
+
+    console.log(foundBook);
+    Review.findOneAndUpdate(
+      { reviewer: req.session.currentUser._id, book: foundBook._id },
+      {
+        $set: {
+          rating: req.body.stars,
+          review: req.body.review
+        }
+      },
+      (err, review) => {
+        console.log("this is working");
+        console.log(review);
+      }
+    );
+  });
+
+  res.redirect("/books/" + req.params.id);
+  console.log("BOOK UPDATED!");
+});
+
 reviews.put("/:id/new", async (req, res) => {
   let url = await `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
   console.log(url);

@@ -20,21 +20,13 @@ books.get("/popular", async (req, res) => {
 
 books.get("/:id", (req, res) => {
   Book.findOne({ id: req.params.id }, (err, foundBook) => {
-    // console.log("\n BOOK REVIEW \n");
-    // console.log(book);
-    // console.log(book.title);
-    // console.log("\n BOOK REVIEW \n");
-    console.log(foundBook._id);
     if (err) console.log(err);
     Review.find({ book: foundBook._id })
       .populate("reviewer")
       .exec((err, reviews) => {
-        console.log("\n\n ````````````````````````````````` \n\n");
-        console.log(reviews.length);
-        console.log("\n\n ````````````````````````````````` \n\n");
-
+        // console.log(reviews);
+        // console.log("REVIEWER ID IS: " + reviews[0].reviewer._id);
         if (err) console.log(err.message);
-        console.log(reviews);
         res.render("../views/books/book.ejs", {
           book: foundBook,
           reviews,
@@ -42,20 +34,6 @@ books.get("/:id", (req, res) => {
         });
       });
   });
-});
-
-books.get("/:id/edit-review", (req, res) => {
-  if (req.session.currentUser) {
-    Book.findOne({ id: req.params.id }, (err, book) => {
-      if (err) console.log(err.message);
-      res.render("../views/books/edit-review.ejs", {
-        currentUser: req.session.currentUser,
-        book
-      });
-    });
-  } else {
-    res.redirect("/sessions/login");
-  }
 });
 
 // books.post("/:id/new", async (req, res) => {
@@ -156,29 +134,6 @@ books.post("/results/", (req, res) => {
     });
     // res.send(data);
   });
-});
-
-books.put("/:id/edit", (req, res) => {
-  console.log("\n\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-
-  console.log(req.session.currentUser.username);
-  Book.updateOne(
-    { id: req.params.id },
-    {
-      $set: {
-        "reviews.$[elem].review": req.body.review,
-        "reviews.$[elem].rating": req.body.stars
-      }
-    },
-    {
-      arrayFilters: [{ "elem.reviewer": req.session.currentUser.username }]
-    },
-    errr => {
-      if (errr) console.log(errr.message);
-    }
-  );
-  res.redirect("/books/" + req.params.id);
-  console.log("BOOK UPDATED!");
 });
 
 books.delete("/:id", (req, res) => {
