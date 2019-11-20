@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../models/users/User");
 const users = express.Router();
+const Review = require("../models/reviews/Reviews");
 const bcrypt = require("bcrypt");
 const request = require("request");
 
@@ -13,9 +14,16 @@ users.get("/signup", (req, res) => {
 users.get("/profile/:username", (req, res) => {
   User.findOne({ _id: req.session.currentUser._id }, (err, user) => {
     if (err) console.log(err.message);
-    res.render("../views/users/userprofile.ejs", {
-      currentUser: user
-    });
+
+    Review.find({ reviewer: user._id })
+      .populate("book")
+      .exec((errr, reviews) => {
+        if (errr) console.log(errr.message);
+        res.render("../views/users/userprofile.ejs", {
+          currentUser: user,
+          reviews
+        });
+      });
   });
 });
 

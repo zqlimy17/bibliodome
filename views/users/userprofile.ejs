@@ -18,7 +18,16 @@
                 <a href="/users/profile/<%=currentUser.username%>/edit">Edit Profile</a>
             </div>
             <div class="col sm-8">
-
+                <h2>Your Reviews</h2>
+                <% for (let i = 0; i < reviews.length; i++) {%>
+                <h3><%=reviews[i].book.title%></h3>
+                <p><%=reviews[i].review%></p>
+                <p><%=reviews[i].rating%></p>
+                <a href="/reviews/<%=reviews[i].book.id%>/edit-review">Edit Review</a>
+                <form action="/reviews/<%=reviews[i]._id%>/<%=reviews[i].book.id%>?_method=DELETE" method="POST">
+                    <input type="submit" value="Delete">
+                </form>
+                <%}%>
             </div>
         </div>
 
