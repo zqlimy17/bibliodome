@@ -57,13 +57,13 @@
             <% for (let i = 0; i < reviews.length; i++) { %>
             <p>Review: <%= reviews[i].review %></p>
             <p>Rating: <%= reviews[i].rating %></p>
-            <p>By: <%= reviews[i].reviewer.name %></p>
+            <p>By: <%= reviews[i].reviewer.username %></p>
             <% if (currentUser) {%>
             <% if (reviews[i].reviewer._id.toString() === currentUser._id.toString()) {%>
             <button class='btn'>
                 <a href="/reviews/<%=book.id%>/edit-review">Edit Review</a>
             </button>
-            <form action="/reviews/<%=reviews[i]._id%>/<%book.id%>?_method=DELETE" method="POST">
+            <form action="/reviews/<%=reviews[i]._id%>/<%=book.id%>?_method=DELETE" method="POST">
                 <input type="submit" value="Delete">
             </form>
             <%}%>
