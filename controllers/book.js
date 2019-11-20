@@ -18,6 +18,19 @@ books.get("/popular", async (req, res) => {
   });
 });
 
+books.get("/results/:author", (req, res) => {
+  let url = `https://www.googleapis.com/books/v1/volumes?q=+inauthor:${req.params.author}`;
+  //   console.log(url);
+  request(url, { json: true }, (err, response, data) => {
+    if (err) console.log(err.message);
+    res.render("../views/books/searchresults.ejs", {
+      data,
+      currentUser: req.session.currentUser
+    });
+    // res.send(data);
+  });
+});
+
 books.get("/:id", (req, res) => {
   Book.findOne({ id: req.params.id }, (err, foundBook) => {
     if (err) console.log(err);
@@ -106,6 +119,19 @@ books.get("/:id", (req, res) => {
 //   });
 // });
 
+books.post("/results/", (req, res) => {
+  let url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.title}+inauthor:${req.body.author}`;
+  //   console.log(url);
+  request(url, { json: true }, (err, response, data) => {
+    if (err) console.log(err.message);
+    res.render("../views/books/searchresults.ejs", {
+      data,
+      currentUser: req.session.currentUser
+    });
+    // res.send(data);
+  });
+});
+
 books.post("/:id/rate", (req, res) => {
   if (req.session.currentUser) {
     let url = `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
@@ -121,19 +147,6 @@ books.post("/:id/rate", (req, res) => {
   } else {
     res.redirect("/sessions/login");
   }
-});
-
-books.post("/results/", (req, res) => {
-  let url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.title}+inauthor:${req.body.author}`;
-  //   console.log(url);
-  request(url, { json: true }, (err, response, data) => {
-    if (err) console.log(err.message);
-    res.render("../views/books/searchresults.ejs", {
-      data,
-      currentUser: req.session.currentUser
-    });
-    // res.send(data);
-  });
 });
 
 module.exports = books;
