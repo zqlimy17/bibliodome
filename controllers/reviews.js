@@ -8,28 +8,19 @@ reviews.put("/:id/new", async (req, res) => {
   let url = await `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
   console.log(url);
   await request(url, { json: true }, async (error, response, data) => {
-    let newRating;
+    let newRating = req.body.stars;
     Book.findOne({ id: req.params.id }, async (err, result) => {
+      console.log(result);
+      console.log(result.rating);
       if (err) console.log(err.message);
-      console.log("\n\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\n");
-      console.log("\n\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\n");
-      console.log("THE RESULT IS" + result);
-      console.log("\n\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\n");
-      console.log("\n\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\n");
-      if (err) console.log(err.message);
-      if (result) {
+      if (result.rating !== null) {
         newRating =
           (parseFloat(req.body.stars) +
             parseFloat(result.rating) * parseFloat(result.ratingCount)) /
           (parseFloat(result.ratingCount) + 1);
       }
+      console.log(newRating);
     });
-
-    console.log(`######################\n######################`);
-    console.log("REQ BODY STARS IS " + req.body.stars);
-    console.log("NEW RATING IS " + newRating);
-    console.log(`######################\n######################`);
-
     Book.findOneAndUpdate(
       {
         id: req.params.id
@@ -51,9 +42,6 @@ reviews.put("/:id/new", async (req, res) => {
         new: true
       },
       (err, book) => {
-        // console.log(`######################\n######################`);
-        // console.log(book);
-        // console.log(`######################\n######################`);
         Review.create({
           rating: req.body.stars,
           review: req.body.review,
