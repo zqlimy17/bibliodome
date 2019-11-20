@@ -23,31 +23,39 @@
                 </p>
             </div>
         </div>
-        <% for (let i = 0; i < reviews.length; i++) { %>
-        <% if (currentUser) {%>
-        <% if (reviews[i].reviewer._id.toString() === currentUser._id.toString()) {%>
-        <p>You have already rated this book!</p>
-        <button class="btn btn-success disabled" type="submit">
-            Rate this book! ONE
-        </button>
-        <a href="/reviews/<%=book.id%>/edit-review">Edit Review</a>
-        <% break %>
-        <% } else {%>
-        <form action="/books/<%=book.id%>/rate" method="POST">
-            <button class="btn btn-success" type="submit">
-                Rate this book! TWO
-            </button>
-        </form>
-        <% } %>
-        <% } else { %>
+
+        <%if (!currentUser) { %>
         <form action="/books/<%=book.id%>/rate" method="POST">
             <button class="btn btn-success" type="submit">
                 Rate this book! THREE
             </button>
         </form>
-        <% break%>
-        <% } %>
-        <% } %>
+        <%} else {%>
+        <% let found = false;%>
+        <% for (let i = 0; i < reviews.length; i++) {%>
+        <%  if (reviews[i].reviewer._id.toString() === currentUser._id.toString()) {%>
+        <%   found = true;%>
+        <%  break;%>
+        <% }%>
+        <% }%>
+        <% if (found === true) {%>
+        <p>You have already rated this book!</p>
+        <button class="btn btn-success disabled" type="submit">
+            Rate this book! ONE
+        </button>
+        <a href="/reviews/<%=book.id%>/edit-review">Edit Review</a>
+        <%} else {%>
+        <form action="/books/<%=book.id%>/rate" method="POST">
+            <button class="btn btn-success" type="submit">
+                Rate this book! TWO
+            </button>
+        </form>
+        <% }%>
+        <% }%>
+
+
+
+
         <div>
             <h2>User Reviews</h2>
             <% for (let i = 0; i < reviews.length; i++) { %>
