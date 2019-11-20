@@ -8,32 +8,31 @@
 
 <body>
     <% include ../partials/nav.ejs %>
-    <div class="container">
-        <h1>Create User</h1>
-        <div class="row">
-            <form action="/users" method="POST">
-                <div class="row">
-                    <div class="">
-                        <input id="name" type="text" class="" name="name" required>
-                        <label for="name">Your Name</label>
-                    </div>
+    <main>
+        <div class="row signup-introduction">
+            <div class="col s12 m4 offset-m1">
+                <h1>Create User</h1>
+                <div class="input-field">
+                    <form action="/users" method="POST">
+                        <div>
+                            <input minlength="3" maxlength="20" id="name" type="text" class="validate" name="name"
+                                style="text-transform: capitalize;" required>
+                            <label for="name">Your Name</label>
+                            <input minlength="6" maxlength="16" id="username" type="text" class="validate"
+                                name="username" style="text-transform: lowercase;" required>
+                            <label for="username">Username</label>
+                            <input minlength="8" maxlength="20" id="password" type="password" class="validate"
+                                name="password" required>
+                            <label for="password">Password</label>
+                        </div>
+                        <br />
+                        <button class="btn" type="submit">Submit</button>
+                    </form>
                 </div>
-                <div class="row">
-                    <div class="">
-                        <input placeholder="Placeholder" id="username" type="text" class="" name="username" required>
-                        <label for="username">Username</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="">
-                        <input id="password" type="password" class="" name="password" required>
-                        <label for="password">Password</label>
-                    </div>
-                </div>
-                <button class="btn" type="submit">Submit
-                </button>
-            </form>
-        </div>
+            </div>
+
+    </main>
+    <% include ../partials/footer.ejs %>
 </body>
 
 </html>

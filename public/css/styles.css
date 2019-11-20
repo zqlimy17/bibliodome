@@ -1,3 +1,25 @@
+body {
+  background-color: #f9fbe7;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 100vh;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+body main {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
+}
+
+body h3 {
+  padding-top: 10px;
+}
+
 .introduction {
   height: 100vh;
   width: 100%;
@@ -6,16 +28,17 @@
   position: relative;
 }
 
+.signup-introduction {
+  height: 100vh;
+  width: 100%;
+  background: url("https://res.cloudinary.com/zqlimy/image/upload/v1574259518/bibliodome-signup-banner_wictbl.jpg") no-repeat center center;
+  background-size: cover;
+  position: relative;
+  background-attachment: fixed;
+}
+
 .nav-logo {
   padding-left: 20px;
-}
-
-body {
-  background-color: #f9fbe7;
-}
-
-body h3 {
-  padding-top: 10px;
 }
 
 #subtitle {
