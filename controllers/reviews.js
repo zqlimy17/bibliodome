@@ -2,6 +2,8 @@ const express = require("express");
 const Review = require("../models/reviews/Reviews");
 const Book = require("../models/books/Books");
 const reviews = express.Router();
+const mongoose = require("mongoose");
+
 const request = require("request");
 
 reviews.get("/:id/edit-review", (req, res) => {
@@ -88,7 +90,7 @@ reviews.put("/:id/new", async (req, res) => {
       }
     );
   });
-  res.redirect("/books/" + req.params.id);
+  res.redirect("/users/profile/" + req.session.currentUser.username);
 });
 
 reviews.get("/:id/:rd", (req, res) => {
