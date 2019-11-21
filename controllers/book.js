@@ -126,7 +126,9 @@ books.post("/results/", (req, res) => {
     if (err) console.log(err.message);
     res.render("../views/books/searchresults.ejs", {
       data,
-      currentUser: req.session.currentUser
+      currentUser: req.session.currentUser,
+      searchTitle: req.body.title,
+      searchAuthor: req.body.author
     });
     // res.send(data);
   });

@@ -54,11 +54,26 @@ body {
 }
 
 .card {
-    .card-image {
+    .ci {
         img {
             width: 250px !important;
             max-width: none !important;
         }
+    }
+
+}
+
+.rp {
+    .card-content {
+        padding: 6px 15px 15px 15px;
+    }
+
+    h5 {
+        margin: 0;
+    }
+
+    img {
+        width: 150px !important;
     }
 }
 
@@ -73,7 +88,7 @@ body {
 .book-description-rp {
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 12;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
 }
 

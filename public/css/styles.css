@@ -48,9 +48,21 @@ body h3 {
   font-style: italic;
 }
 
-.card .card-image img {
+.card .ci img {
   width: 250px !important;
   max-width: none !important;
+}
+
+.rp .card-content {
+  padding: 6px 15px 15px 15px;
+}
+
+.rp h5 {
+  margin: 0;
+}
+
+.rp img {
+  width: 150px !important;
 }
 
 .book-description {
@@ -63,7 +75,7 @@ body h3 {
 .book-description-rp {
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 12;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 

@@ -8,47 +8,69 @@
 
 <body>
     <% include ../partials/nav.ejs %>
-    <div class="container">
-        <h1>Search Results</h1>
-        <div class="row">
-            <div class="col s12 m6">
-                <% for (let i = 0; i < data.items.length; i++) { %>
-                <div class="card horizontal teal lighten-5">
-                    <div class="card-image">
-                        <% if (data.items[i].volumeInfo.hasOwnProperty('imageLinks')) {
-                                        %>
-                        <img src="<%= data.items[i].volumeInfo.imageLinks.thumbnail %>" class="card-img" />
-                        <%} else { %>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
-                            width="100%" />
-                        <% } %>
-                    </div>
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <h5> <%= data.items[i].volumeInfo.title %>
-                            </h5>
-                            <div class="book-description-rp"> <%= data.items[i].volumeInfo.description %>
-                            </div>
-                            <h5>Author: <%= data.items[i].volumeInfo.authors %></h5>
-                            <div>
-                                <form action="/books/<%=data.items[i].id%>/rate" method="POST">
-                                    <button class="btn btn-success" type="submit">
-                                        Rate this book!
-                                    </button>
-                                </form>
+    <main>
+        <div class="container">
+            <div class="z-depth-5 center-align">
+                <h3>Search the Bibliodome Library</h3>
+                <div class="row">
+                    <form class="col s12" action="/books/results" method="POST">
+                        <div class="input-field col s6">
+                            <input type="text" name="title" class="validate" id="title" value="<%=searchTitle%>">
+                            <label for="title">Book Title</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input type="text" name="author" id="author" value="<%=searchAuthor%>">
+                            <label for="title">Book Author</label>
+                        </div>
+                        <div class="col s2 valign-wrapper">
+                            <p>
+                                <button class="btn waves-effect waves-light" type="submit" name="action">Search
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <h1>Search Results</h1>
+            <div class="row rp">
+                <div class="col s12 m6">
+                    <% for (let i = 0; i < data.items.length; i++) { %>
+                    <div class="card horizontal teal lighten-5">
+                        <div class="card-image">
+                            <% if (data.items[i].volumeInfo.hasOwnProperty('imageLinks')) { %>
+                            <img src="<%= data.items[i].volumeInfo.imageLinks.thumbnail %>" class="card-img" />
+                            <%} else { %>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+                                style="width:150px;" />
+                            <% } %>
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h5> <%= data.items[i].volumeInfo.title %></h5>
+                                <div class="book-description-rp">
+                                    <%= data.items[i].volumeInfo.description %>
+                                </div>
+                                <h6>Author: <%= data.items[i].volumeInfo.authors %></h6>
+                                <div>
+                                    <form action="/books/<%=data.items[i].id%>/rate" method="POST">
+                                        <button class="btn btn-success" type="submit">
+                                            <i class="material-icons left">rate_review</i>Rate this book!
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <% if (i === 4) { %>
                 </div>
-            </div>
-        </div>
-        <% if (i === 4) { %>
-    </div>
-    <div class="col s12 m6">
-        <% } %> <%}%>
+                <div class="col s12 m6">
+                    <% } %> <%}%>
         </div>
       </div>
     </div>
+</main>
+    <% include ../partials/footer.ejs %>
 </body>
 
 </html>
