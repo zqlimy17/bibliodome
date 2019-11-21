@@ -11,13 +11,13 @@
         <% include ../partials/nav.ejs %>
         <main>
             <div class="container">
-                <% if (currentUser) { %>
+                <% if (currentUser.username === profileUser) { %>
                 <h2>Welcome, <%=currentUser.name%>!</h2>
 
                 <% } %>
                 <div class="row">
                     <div class="col s12 m3">
-                        <h4>Your Profile</h4>
+                        <h4><%= profileUser%>'s Profile</h4>
                         <% if (currentUser) { %>
                         <% if (profileUser === currentUser.username) { %>
                         <blockquote>Name: <%= currentUser.name%></blockquote>
@@ -32,15 +32,15 @@
                         <% } %>
                     </div>
                     <div class="col s12 m9">
-                        <h4>Your Reviews</h4>
+                        <h4>All Reviews</h4>
                         <div class="cardHolder">
                             <% for (let i = 0; i < reviews.length; i++) {%>
                             <div class="col s12 m6">
                                 <div class="card teal darken-3">
                                     <div class="card-content white-text">
                                         <span class="card-title"><%=reviews[i].book.title%></span>
-                                        <p>Your Review: <%=reviews[i].review%></p>
-                                        <p>Your Rating: <%=reviews[i].rating%></p>
+                                        <p>Review: <%=reviews[i].review%></p>
+                                        <p>Rating: <%=reviews[i].rating%></p>
                                     </div>
                                     <% if (currentUser) { %>
                                     <% if (profileUser === currentUser.username) { %>
@@ -48,7 +48,8 @@
                                         <a class="btn" href="/reviews/<%=reviews[i].book.id%>/edit-review">Edit
                                             Review</a>
                                         <a class="btn"
-                                            href="/reviews/<%=reviews[i]._id%>/<%=reviews[i].book.id%>">Delete</a>
+                                            href="/reviews/<%=reviews[i]._id%>/<%=reviews[i].book.id%>">Delete
+                                            Review</a>
                                     </div>
                                     <% } %>
                                     <% } %>

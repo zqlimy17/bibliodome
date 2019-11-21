@@ -50,17 +50,18 @@
                     <button class="btn" href="/reviews/<%= book.id %>/edit-review">Edit Review</button>
                 </div>
                 <% } else { %>
-                <form action="/books/<%= book.id %>/rate" method="POST">
-                    <button class="btn btn-success" type="submit">
-                        Rate this book!
-                    </button>
-                </form>
-                <% } %>
-                <% } %>
-                <div>
+                <div class="center-align">
+
+                    <form action="/books/<%= book.id %>/rate" method="POST">
+                        <button class="btn btn-success" type="submit">
+                            Rate this book!
+                        </button>
+                    </form>
+                </div>
+                <% } %> <% } %> <div>
                     <h3 class="center-align">User Reviews</h3>
-                    <% for (let i = 0; i < reviews.length; i++) { %>
                     <div class="row">
+                        <% for (let i = 0; i < reviews.length; i++) { %>
                         <div class="col s6 m4 l4">
                             <div class="card blue-grey darken-1">
                                 <div class="card-content white-text">
@@ -68,26 +69,27 @@
                                         class="card-title"><%= reviews[i].reviewer.username %></a>
                                     <p>Rated: <% for (let j = 0; j < reviews[i].rating; j ++) { %>
                                         &bigstar;
-                                        <% } %></p>
-                                    <p><%= reviews[i].review %></p>
+                                        <% }; %></p>
+                                    <p><%= reviews[i].review.toString() %></p>
                                 </div>
                                 <% if (currentUser) { %>
                                 <% if (reviews[i].reviewer._id.toString() === currentUser._id.toString()) { %>
-
                                 <div class="card-action">
                                     <button href="/reviews/<%= book.id %>/edit-review" class='btn'>
                                         Edit Review
                                     </button>
                                     <button href="/reviews/<%= reviews[i]._id %>/<%= book.id %>" class='btn'>
-                                        Delete
+                                        Delete Review
                                     </button>
                                 </div>
+                                <% }; %>
+                                <% }; %>
+
                             </div>
                         </div>
+                        <% }; %>
+
                     </div>
-                    <% } %>
-                    <% } %>
-                    <% } %>
                 </div>
             </div>
         </main>
