@@ -70,6 +70,13 @@ body {
     -webkit-box-orient: vertical;
 }
 
+.book-description-rp {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 12;
+    -webkit-box-orient: vertical;
+}
+
 .rating {
     display: inline-block;
     position: relative;
@@ -137,6 +144,23 @@ body {
 }
 
 // labels
-label {
-    color: black
+
+// login
+.modal-content {
+    text-align: center;
+
+    input {
+        text-align: center;
+    }
+
+    .lh0 {
+        line-height: 1;
+    }
+}
+
+// member
+.member {
+    a {
+        color: #4db6ac;
+    }
 }

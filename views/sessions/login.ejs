@@ -7,29 +7,34 @@
 </head>
 
 <body>
-    <% include ../partials/nav.ejs %>
-    <div class="container">
-        <h1>Log In</h1>
-        <div class="row">
-            <form action="/sessions" method="POST" class="">
+    <div class="wrapper">
+        <% include ../partials/nav.ejs %>
+        <main>
+            <div class="container">
+                <h1>Log In</h1>
                 <div class="row">
-                    <div class="">
-                        <input placeholder="Placeholder" id="username" type="text" class="validate" name="username"
-                            required>
-                        <label for="username">User Name</label>
-                    </div>
+                    <form action="/sessions" method="POST" class="">
+                        <div class="row">
+                            <div class="">
+                                <input placeholder="Username" id="username" type="text" class="validate" name="username"
+                                    required>
+                                <label for="username">User Name</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="">
+                                <input id="password" type="password" placeholder="Password" class="validate"
+                                    name="password" required>
+                                <label for="password">Password</label>
+                            </div>
+                        </div>
+                        <button class="btn" type="submit" name="action">Submit
+                        </button>
+                    </form>
                 </div>
-                <div class="row">
-                    <div class="">
-                        <input id="password" type="password" class="validate" name="password" required>
-                        <label for="password">Password</label>
-                    </div>
-                </div>
-                <button class="btn" type="submit" name="action">Submit
-                    <i class="">send</i>
-                </button>
-            </form>
-        </div>
+        </main>
+        <% include ../partials/footer.ejs %>
+    </div>
 </body>
 
 </html>

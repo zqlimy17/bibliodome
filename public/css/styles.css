@@ -60,6 +60,13 @@ body h3 {
   -webkit-box-orient: vertical;
 }
 
+.book-description-rp {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 12;
+  -webkit-box-orient: vertical;
+}
+
 .rating {
   display: inline-block;
   position: relative;
@@ -126,7 +133,19 @@ body h3 {
   text-shadow: 0 0 5px #09f;
 }
 
-label {
-  color: black;
+.modal-content {
+  text-align: center;
+}
+
+.modal-content input {
+  text-align: center;
+}
+
+.modal-content .lh0 {
+  line-height: 1;
+}
+
+.member a {
+  color: #4db6ac;
 }
 /*# sourceMappingURL=styles.css.map */
