@@ -17,22 +17,16 @@
                         class="material-icons right">arrow_drop_down</i></a></li>
             <% } else { %>
             <li><a href="/users/signup" class="btn">SIGNUP</a></li>
-
             <li><a class="modal-trigger" href="#login">LOGIN</a></li>
             <div id="login" class="modal">
                 <div class="modal-content">
                     <h3 class="teal-text text-darken-3">
                         Bibliodome</h3>
                     <form action="/sessions" method="POST" class="">
-                        <div class="input-field">
-                            <input id="username" type="text" class="validate" name="username"
-                                style="text-transform: lowercase;" required>
-                            <label for="username">Username</label>
-                        </div>
-                        <div class="input-field">
-                            <input id="password" type="password" class="validate" name="password" required>
-                            <label for="password">Password</label>
-                        </div>
+                        <input placeholder="Username" id="username" type="text" class="validate" name="username"
+                            style="text-transform: lowercase;" required>
+                        <input placeholder="password" id="password" type="password" class="validate" name="password"
+                            required>
                         <button class="btn" type="submit" name="action">Submit</button>
                     </form>
                     <p class="teal-text lh0">Don't have an account?</p>
