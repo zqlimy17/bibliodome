@@ -10,13 +10,13 @@
 
 <body>
     <% include ../partials/nav.ejs %>
-    <div class="container text-center">
+    <div class="container">
         <h1><%-data.volumeInfo.title%></h1>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col s12 m3">
                 <img src="<%=data.volumeInfo.imageLinks.thumbnail%>" />
             </div>
-            <div class="col-sm-8">
+            <div class="col s12 m9">
                 <h2><%-data.volumeInfo.authors%></h2>
                 <p class="book-description">
                     <%-data.volumeInfo.description%>

@@ -1,7 +1,7 @@
-// * {
-//     outline: 1px solid black;
-//     outline-offset: 1px;
-// }
+* {
+    outline: 1px solid gold;
+    outline-offset: 1px;
+}
 
 
 body {
@@ -191,4 +191,36 @@ body {
     a {
         color: #4db6ac;
     }
+}
+
+// book
+.bk {
+    img {
+        width: 100%;
+    }
+
+    .book-description-bk {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 12;
+        -webkit-box-orient: vertical;
+
+        p {
+            margin: 5px;
+        }
+    }
+}
+
+.cardHolder {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-flow: row wrap;
+    width: 100%;
+}
+
+blockquote {
+    border-left: 5px solid #1de9b6;
+    /* Just change the color value and that's it*/
+
 }

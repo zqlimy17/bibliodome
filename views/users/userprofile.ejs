@@ -11,29 +11,47 @@
         <% include ../partials/nav.ejs %>
         <main>
             <div class="container">
+                <% if (currentUser) { %>
                 <h2>Welcome, <%=currentUser.name%>!</h2>
+
+                <% } %>
                 <div class="row">
                     <div class="col s12 m3">
                         <h4>Your Profile</h4>
-                        <p>Name: <%=currentUser.name%></p>
-                        <p>Username: <%= currentUser.username%></p>
-                        <a href="/users/profile/<%=currentUser.username%>/edit">Edit Profile</a>
+                        <% if (currentUser) { %>
+                        <% if (profileUser === currentUser.username) { %>
+                        <blockquote>Name: <%= currentUser.name%></blockquote>
+                        <% } %>
+                        <% } %>
+                        <blockquote>Username: <%= profileUser%></blockquote>
+                        <% if (currentUser) { %>
+                        <% if (profileUser === currentUser.username) { %>
+                        <button class="btn" href="/users/profile/<%=currentUser.username%>/edit">Edit
+                            Profile</button>
+                        <% } %>
+                        <% } %>
                     </div>
                     <div class="col s12 m9">
                         <h4>Your Reviews</h4>
-                        <div class="row">
+                        <div class="cardHolder">
                             <% for (let i = 0; i < reviews.length; i++) {%>
                             <div class="col s12 m6">
-                                <div class="card blue-grey darken-1">
+                                <div class="card teal darken-3">
                                     <div class="card-content white-text">
                                         <span class="card-title"><%=reviews[i].book.title%></span>
                                         <p>Your Review: <%=reviews[i].review%></p>
                                         <p>Your Rating: <%=reviews[i].rating%></p>
                                     </div>
+                                    <% if (currentUser) { %>
+                                    <% if (profileUser === currentUser.username) { %>
                                     <div class="card-action">
-                                        <a href="/reviews/<%=reviews[i].book.id%>/edit-review">Edit</a>
-                                        <a href="/reviews/<%=reviews[i]._id%>/<%=reviews[i].book.id%>">Delete</a>
+                                        <a class="btn" href="/reviews/<%=reviews[i].book.id%>/edit-review">Edit
+                                            Review</a>
+                                        <a class="btn"
+                                            href="/reviews/<%=reviews[i]._id%>/<%=reviews[i].book.id%>">Delete</a>
                                     </div>
+                                    <% } %>
+                                    <% } %>
                                 </div>
                             </div>
                             <%}%>

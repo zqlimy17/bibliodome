@@ -50,7 +50,9 @@
                             <div class="card-stacked">
                                 <div class="card-content">
                                     <h4><%= book[i].title %></h4>
-                                    <div class="book-description"><%- book[i].description %></div>
+                                    <div class="book-description">
+                                        <%-book[i].description%>
+                                    </div>
                                     <h5>Author: <%= book[i].author %></h5>
                                     <h6><%= book[i].rating %>/5 Stars (<%= book[i].ratingCount %> reviews)</h6>
                                     <div>
