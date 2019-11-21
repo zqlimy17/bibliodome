@@ -20,10 +20,7 @@ reviews.get("/:id/edit-review", (req, res) => {
 
 reviews.put("/:id/edit", (req, res) => {
   console.log("CURRENT USER ID IS: " + req.session.currentUser._id);
-  console.log("CURRENT USER ID IS: " + req.session.currentUser._id);
   Book.findOne({ id: req.params.id }, (err, foundBook) => {
-    console.log(foundBook);
-
     console.log(foundBook);
     Review.findOneAndUpdate(
       { reviewer: req.session.currentUser._id, book: foundBook._id },
@@ -91,11 +88,10 @@ reviews.put("/:id/new", async (req, res) => {
       }
     );
   });
-
-  res.redirect("/");
+  res.redirect("/books/" + req.params.id);
 });
 
-reviews.delete("/:id/:rd", (req, res) => {
+reviews.get("/:id/:rd", (req, res) => {
   Review.findOneAndDelete({ _id: req.params.id }, err => {
     if (err) console.log(err.message);
     console.log("Review has been deleted!");
