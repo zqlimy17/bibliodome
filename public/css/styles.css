@@ -3,10 +3,6 @@
   outline-offset: 1px;
 }
 
-body {
-  background-color: #f9fbe7;
-}
-
 body main {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 auto;
@@ -181,6 +177,10 @@ body h3 {
 
 .bk img {
   width: 100%;
+}
+
+.bk .submit-rating {
+  width: 20%;
 }
 
 .bk .book-description-bk {

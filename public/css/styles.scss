@@ -5,7 +5,7 @@
 
 
 body {
-    background-color: #f9fbe7;
+    // background-color: #f9fbe7;
 
     main {
         flex: 1 0 auto;
@@ -201,6 +201,10 @@ body {
 .bk {
     img {
         width: 100%;
+    }
+
+    .submit-rating {
+        width: 20%
     }
 
     .book-description-bk {
