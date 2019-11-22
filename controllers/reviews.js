@@ -52,11 +52,11 @@ reviews.put("/:id/new", async (req, res) => {
   await request(url, { json: true }, async (error, response, data) => {
     let newRating = req.body.stars;
     Book.findOne({ id: req.params.id }, async (err, result) => {
-      console.log("1");
+      console.log("1111111111111111111111111111111111111111111");
       // console.log(result);
       // console.log(result.rating);
       if (err) console.log(err.message);
-      if (result) {
+      if (result.rating !== null) {
         let calc = parseFloat(result.rating) * parseFloat(result.ratingCount);
         console.log(calc);
         newRating =
@@ -64,7 +64,7 @@ reviews.put("/:id/new", async (req, res) => {
           (parseFloat(result.ratingCount) + 1);
       }
       console.log(newRating);
-      await Book.updateOne(
+      Book.findOneAndUpdate(
         {
           id: req.params.id
         },
@@ -85,14 +85,14 @@ reviews.put("/:id/new", async (req, res) => {
           new: true
         },
         (err, book) => {
-          console.log("2");
+          console.log(newRating);
+          console.log("222222222222222222222222222222222222");
           Review.create({
             rating: req.body.stars,
             review: req.body.review,
             reviewer: req.session.currentUser._id,
             book: book._id
           });
-          res.redirect("/users/profile/" + req.session.currentUser.username);
         }
       );
     });
@@ -107,7 +107,7 @@ reviews.put("/:id/new", async (req, res) => {
   // ).exec((err, rating) => {
   //   if (err) console.log(err.message);
   // });
-  console.log("3");
+  res.redirect("/users/profile/" + req.session.currentUser.username);
 });
 
 reviews.delete("/:rd/:id", async (req, res) => {
