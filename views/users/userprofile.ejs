@@ -11,10 +11,12 @@
         <% include ../partials/nav.ejs %>
         <main>
             <div class="container">
+                <% if (currentUser) { %>
                 <% if (currentUser.username === profileUser) { %>
                 <h2>Welcome, <%=currentUser.name%>!</h2>
-
                 <% } %>
+                <% } %>
+
                 <div class="row">
                     <div class="col s12 m3">
                         <h4><%= profileUser%>'s Profile</h4>
@@ -36,9 +38,10 @@
                         <div class="cardHolder">
                             <% for (let i = 0; i < reviews.length; i++) {%>
                             <div class="col s12 m6">
-                                <div class="card teal darken-3">
+                                <div class="card teal darken-2">
                                     <div class="card-content white-text">
-                                        <span class="card-title"><%=reviews[i].book.title%></span>
+                                        <a href="/books/<%= reviews[i].book.id %>"
+                                            class="card-title teal-text text-accent-1"><%=reviews[i].book.title%></a>
                                         <p>Review: <%=reviews[i].review%></p>
                                         <p>Rating: <%=reviews[i].rating%></p>
                                     </div>
