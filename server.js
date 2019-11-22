@@ -60,7 +60,7 @@ app.use("/reviews", reviewController);
 app.get("/", async (req, res) => {
   let bookData = Book.find({})
     .sort({ rating: -1 })
-    .limit(5);
+    .limit(10);
   bookData.find({}, async (err, book) => {
     if (err) console.log(err.message);
     res.render("index.ejs", {
