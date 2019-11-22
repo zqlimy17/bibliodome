@@ -63,7 +63,6 @@ reviews.put("/:id/new", async (req, res) => {
           (parseFloat(req.body.stars) + calc) /
           (parseFloat(result.ratingCount) + 1);
       }
-      console.log(newRating);
       Book.findOneAndUpdate(
         {
           id: req.params.id
@@ -85,8 +84,6 @@ reviews.put("/:id/new", async (req, res) => {
           new: true
         },
         (err, book) => {
-          console.log(newRating);
-          console.log("222222222222222222222222222222222222");
           Review.create({
             rating: req.body.stars,
             review: req.body.review,
@@ -97,18 +94,10 @@ reviews.put("/:id/new", async (req, res) => {
       );
     });
   });
-  // User.findByIdAndUpdate(
-  //   { id: req.session.currentUser._id },
-  //   {
-  //     $inc: {
-  //       ratingCount: 1
-  //     }
-  //   }
-  // ).exec((err, rating) => {
-  //   if (err) console.log(err.message);
-  // });
   res.redirect("/users/profile/" + req.session.currentUser.username);
 });
+
+reviews.put("/");
 
 reviews.delete("/:rd/:id", async (req, res) => {
   let newRating = req.body.stars;

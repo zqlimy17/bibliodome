@@ -28,7 +28,7 @@
 
                 <div class="center-align">
                     <p>Rating</p>
-                    <form action="/reviews/<%=book.id%>/new?_method=PUT" method="POST">
+                    <form action="/reviews/<%=book.id%>/edit?_method=PUT" method="POST">
                         <!-- Star Rating -->
                         <div class="stars">
                             <% if (review.rating === 5) { %>
