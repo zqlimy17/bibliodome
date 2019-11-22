@@ -47,7 +47,7 @@
                     <button class="btn disabled" type="submit">
                         Rate this book!
                     </button>
-                    <button class="btn" href="/reviews/<%= book.id %>/edit-review">Edit Review</button>
+                    <a class="btn" href="/reviews/<%= book.id %>/edit-review">Edit Review</a>
                 </div>
                 <% } else { %>
                 <div class="center-align">
@@ -75,12 +75,12 @@
                                 <% if (currentUser) { %>
                                 <% if (reviews[i].reviewer._id.toString() === currentUser._id.toString()) { %>
                                 <div class="card-action">
-                                    <button href="/reviews/<%= book.id %>/edit-review" class='btn'>
+                                    <a href="/reviews/<%= book.id %>/edit-review" class='btn'>
                                         Edit Review
-                                    </button>
-                                    <button href="/reviews/<%= reviews[i]._id %>/<%= book.id %>" class='btn'>
+                                    </a>
+                                    <a href="/reviews/<%= reviews[i]._id %>/<%= book.id %>" class='btn'>
                                         Delete Review
-                                    </button>
+                                    </a>
                                 </div>
                                 <% }; %>
                                 <% }; %>
