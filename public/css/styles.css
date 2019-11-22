@@ -66,6 +66,10 @@ body h3 {
   max-width: none !important;
 }
 
+.card a:hover {
+  text-decoration: underline;
+}
+
 .rp .card-content {
   padding: 6px 15px 15px 15px;
 }
