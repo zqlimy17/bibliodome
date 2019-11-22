@@ -1,8 +1,8 @@
 const express = require("express");
 const Review = require("../models/reviews/Reviews");
 const Book = require("../models/books/Books");
+const User = require("../models/users/User");
 const reviews = express.Router();
-const mongoose = require("mongoose");
 
 const request = require("request");
 
@@ -52,56 +52,102 @@ reviews.put("/:id/new", async (req, res) => {
   await request(url, { json: true }, async (error, response, data) => {
     let newRating = req.body.stars;
     Book.findOne({ id: req.params.id }, async (err, result) => {
-      console.log(result);
-      console.log(result.rating);
+      console.log("1");
+      // console.log(result);
+      // console.log(result.rating);
       if (err) console.log(err.message);
-      if (result.rating !== null) {
+      if (result) {
+        let calc = parseFloat(result.rating) * parseFloat(result.ratingCount);
+        console.log(calc);
         newRating =
-          (parseFloat(req.body.stars) +
-            parseFloat(result.rating) * parseFloat(result.ratingCount)) /
+          (parseFloat(req.body.stars) + calc) /
           (parseFloat(result.ratingCount) + 1);
       }
       console.log(newRating);
-    });
-    Book.findOneAndUpdate(
-      {
-        id: req.params.id
-      },
-      {
-        id: data.id,
-        id: data.id,
-        title: data.volumeInfo.title,
-        description: data.volumeInfo.description,
-        img: data.volumeInfo.imageLinks.thumbnail,
-        author: data.volumeInfo.authors,
-        $set: { rating: newRating },
-        $inc: {
-          ratingCount: 1
+      await Book.updateOne(
+        {
+          id: req.params.id
+        },
+        {
+          id: data.id,
+          id: data.id,
+          title: data.volumeInfo.title,
+          description: data.volumeInfo.description,
+          img: data.volumeInfo.imageLinks.thumbnail,
+          author: data.volumeInfo.authors,
+          $set: { rating: newRating },
+          $inc: {
+            ratingCount: 1
+          }
+        },
+        {
+          upsert: true,
+          new: true
+        },
+        (err, book) => {
+          console.log("2");
+          Review.create({
+            rating: req.body.stars,
+            review: req.body.review,
+            reviewer: req.session.currentUser._id,
+            book: book._id
+          });
+          res.redirect("/users/profile/" + req.session.currentUser.username);
         }
-      },
-      {
-        upsert: true,
-        new: true
-      },
-      (err, book) => {
-        Review.create({
-          rating: req.body.stars,
-          review: req.body.review,
-          reviewer: req.session.currentUser._id,
-          book: book._id
-        });
-      }
-    );
+      );
+    });
   });
-  res.redirect("/users/profile/" + req.session.currentUser.username);
+  // User.findByIdAndUpdate(
+  //   { id: req.session.currentUser._id },
+  //   {
+  //     $inc: {
+  //       ratingCount: 1
+  //     }
+  //   }
+  // ).exec((err, rating) => {
+  //   if (err) console.log(err.message);
+  // });
+  console.log("3");
 });
 
-reviews.get("/:id/:rd", (req, res) => {
-  Review.findOneAndDelete({ _id: req.params.id }, err => {
-    if (err) console.log(err.message);
-    console.log("Review has been deleted!");
-  });
-  res.redirect("/books/" + req.params.rd);
+reviews.delete("/:rd/:id", async (req, res) => {
+  let newRating = req.body.stars;
+  await Review.findOneAndDelete(
+    { _id: req.params.rd },
+    async (err, deletedReview) => {
+      console.log("DELETED REVIEW IS " + deletedReview);
+      console.log("1 Deleting");
+      if (err) console.log(err.message);
+      console.log("Review has been deleted!");
+      Book.findOne({ id: req.params.id }, async (err, result) => {
+        console.log("2 Finding");
+        console.log("REQ PARAMS ID IS " + req.params.id);
+        console.log("RESULT IS " + result);
+        console.log("DELETED REVIEW IS " + deletedReview);
+        if (err) console.log(err.message);
+        if (result.rating !== null) {
+          newRating =
+            (parseFloat(result.rating) * parseFloat(result.ratingCount) -
+              parseFloat(deletedReview.rating)) /
+            (parseFloat(result.ratingCount) - 1);
+        }
+        console.log("New Rating is ", newRating);
+        console.log(typeof newRating);
+        Book.updateOne(
+          { id: req.params.id },
+          {
+            $set: { rating: newRating },
+            $inc: { ratingCount: -1 }
+          },
+          (err, asd) => {
+            if (err) console.log(err.message);
+          }
+        );
+      });
+    }
+  );
+  console.log("4");
+  res.redirect("/books/" + req.params.id);
 });
 
 module.exports = reviews;

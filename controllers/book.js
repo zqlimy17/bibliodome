@@ -32,7 +32,7 @@ books.get("/results/:author", (req, res) => {
 });
 
 books.get("/:id", async (req, res) => {
-  Book.findOne({ id: req.params.id }, async (err, foundBook) => {
+  Book.findOne({ id: req.params.id }, (err, foundBook) => {
     if (err) console.log(err);
     Review.find({ book: foundBook._id })
       .populate("reviewer")

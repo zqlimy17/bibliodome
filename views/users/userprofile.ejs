@@ -50,9 +50,11 @@
                                     <div class="card-action">
                                         <a class="btn" href="/reviews/<%=reviews[i].book.id%>/edit-review">Edit
                                             Review</a>
-                                        <a class="btn"
-                                            href="/reviews/<%=reviews[i]._id%>/<%=reviews[i].book.id%>">Delete
-                                            Review</a>
+                                        <form
+                                            action="/reviews/<%=reviews[i]._id%>/<%=reviews[i].book.id%>?_method=DELETE"
+                                            method="POST" class="deleteReview">
+                                            <input type="submit" class='btn' value="Delete Review" />
+                                        </form>
                                     </div>
                                     <% } %>
                                     <% } %>

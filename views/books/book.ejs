@@ -78,9 +78,10 @@
                                     <a href="/reviews/<%= book.id %>/edit-review" class='btn'>
                                         Edit Review
                                     </a>
-                                    <a href="/reviews/<%= reviews[i]._id %>/<%= book.id %>" class='btn'>
-                                        Delete Review
-                                    </a>
+                                    <form action="/reviews/<%= reviews[i]._id %>/<%= book.id %>?_method=DELETE"
+                                        method="POST" class="deleteReview">
+                                        <input type="submit" class='btn' value="Delete Review" />
+                                    </form>
                                 </div>
                                 <% }; %>
                                 <% }; %>

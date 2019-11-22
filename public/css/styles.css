@@ -1,9 +1,4 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-* {
-  outline: 1px solid gold;
-  outline-offset: 1px;
-}
-
 body main {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 auto;
@@ -223,5 +218,11 @@ label.star:before {
 blockquote {
   border-left: 5px solid #1de9b6;
   /* Just change the color value and that's it*/
+}
+
+.deleteReview {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
 }
 /*# sourceMappingURL=styles.css.map */
