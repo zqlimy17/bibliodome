@@ -8,12 +8,18 @@ const request = require("request");
 
 reviews.get("/:id/edit-review", (req, res) => {
   if (req.session.currentUser) {
-    Book.findOne({ id: req.params.id }, (err, book) => {
+    Book.findOne({ id: req.params.id }, (err, foundBook) => {
       if (err) console.log(err.message);
-      res.render("../views/books/edit-review.ejs", {
-        currentUser: req.session.currentUser,
-        book
-      });
+      Review.findOne(
+        { book: foundBook._id, reviewer: req.session.currentUser._id },
+        (err, foundReview) => {
+          res.render("../views/books/edit-review.ejs", {
+            currentUser: req.session.currentUser,
+            book: foundBook,
+            review: foundReview
+          });
+        }
+      );
     });
   } else {
     res.redirect("/sessions/login");
@@ -21,7 +27,6 @@ reviews.get("/:id/edit-review", (req, res) => {
 });
 
 reviews.put("/:id/edit", (req, res) => {
-  console.log("CURRENT USER ID IS: " + req.session.currentUser._id);
   Book.findOne({ id: req.params.id }, (err, foundBook) => {
     console.log(foundBook);
     Review.findOneAndUpdate(
@@ -33,14 +38,12 @@ reviews.put("/:id/edit", (req, res) => {
         }
       },
       (err, review) => {
-        console.log("this is working");
+        console.log("BOOK UPDATED!");
         console.log(review);
       }
     );
   });
-
   res.redirect("/books/" + req.params.id);
-  console.log("BOOK UPDATED!");
 });
 
 reviews.put("/:id/new", async (req, res) => {
