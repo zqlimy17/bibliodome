@@ -1,57 +1,53 @@
 # GAProject2: [BIBLIODOME](https://bibliodome.herokuapp.com/)
 
-![Screenshot of the Bibliodome Library](https://zqlimy17.github.io/from-f9-to-a1/img/ss.png)
+![Screenshot of the Bibliodome Library](https://raw.githubusercontent.com/zqlimy17/bibliodome/master/bibliodome-homepage.png)
 
-## About the Game
+## About the App
 
-[From F9 to A1] is a mathematics game for students. The player has to select the operation, and then to answer as many math questions within a 30 seconds limit.
+[Bibliodome] is a RESTful API online library application that allow users to search for books and rate them. Their ratings will be available to the public and can be edited or deleted.
 
-## Difficulty Levels
-Comes with 3 difficulty levels:
-- Easy: Unlocked by default.
-- Medium: Requires 25 points to unlock.
-- Hard: Requires 250 points to unlock.
+## MVC
+[Bibliodome] makes use of 4 controllers and 3 models; Reviews, Books, Users, and Sessions.
 
-The harder the difficulty, the more points the player will get per correct answer.
-Players can play in the "Casual" game mode to try and unlock these harder difficulties.
+### Reviews
+Most of the app is dependent on Reviews as it is the connection between the Books and Users. The Reviews mongoose schema model takes in the Books and Users as ObjectId, hence allowing easy references to these 2 models when necessay. Reviews can be created, edited, and deleted. 
 
-## Scoring
-### Easy
-- Addition: 2 point
-- Subtraction: 3 points
-- Multiplication: 4 points
-– Division: 5 points
-- Random: 2x points
+### Books
+Whenever a book is rated for the first time, a copy of the book is stored in the MongoDB. The Book model does not directly reference to any Users or Reviews. The main purpose of these book objects is to populate data on the front-end. Books can only be created. 
 
-### Medium
-- Addition: 20 point
-- Subtraction: 30 points
-- Multiplication: 40 points
-- Division: 50 points
-- Random: 2x points
+### Users
+Users are for storing users data, such as name, username, password, and how many reviews the user has given. The Users model also does not directly reference to the Reviews or Books. A user is created during sign-up, and each user can edit or delete their reviews. Users can edit their profile. 
 
-### Hard
-- Addition: 200 point
-- Subtraction: 300 points
-- Multiplication: 400 points
-- Division: 500 points
-- Random: 2x points
+### Sessions (Controller only)
+Solely for authentication purposes and to keep track of each user's session.
 
-### Wrong
-- Lose 50% of points
 
-# Technologies and Resources
-- HTML, CSS (bootstrap), JavaScript (jQuery, popper.js).
+## Technologies and Resources
+- MongoDB, HTML, CSS (Materialize), JavaScript (jQuery).
+- Google Books API. 
+- Node Modules: bcrypt, dotenv, ejs, express, express-static, method-override, mongoose, and request. 
+- Published on Heroku.
 
 ## Approach 
-1. Once the game loads, the users will have to select an operation before the game can start.
-2. [Optional] The player can choose to play in casual mode.
-3. A countdown timer with a random tip will be shown.
-4. Main game officially starts: the player will see an equation on the screen and will attempt to answer it in the input box. The player can hit the [ENTER] button to submit, and the [SPACE] button to skip the current question.
-5. After 30 seconds, the game ends, and the high-score is recorded.
-6. Player can choose to try again, or return to the main menu.
-7. Medium and Hard difficulties will be unlocked if the player's score is high enough.
+1. After signing up, a user can search for a book (called through Google Books API) and browse/rate/review them. 
+2. Currently, the search only takes in the book title and author as variables. 
+3. After reviewing a book, the review will be made availble to the public on each individial book's page. 
+4. Each review can be edited or deleted either on the user's profile page or on the reivewed book page directly. 
+5. On the books page, users will be able to see other people's reviews. Users are able to browse these other people's profile and view all the other books that they have rated. 
 
-# Unsolved Problems and More To Do
-- Pausing the game resets the time bar color.
-- Adding an alert to inform the player that the Medium & Hard difficulties are unlocked.
+## More To Do
+This list is definitely inexhaustive, but here are some of the features that I'd like to include/improve:
+
+- More Google Book API parameters.
+- Possibly change to another book API library. 
+- Showcasing top users. 
+- Book categories. 
+- Random book search. 
+- New releases / Best sellers columns. 
+- Better UI (currently, each book is displayed as a card). 
+- Displaying book information (such as ISBN, published date, etc). 
+- Badges/Goals/Rewards.
+- Reviewed date. 
+- Recommended books.
+- Related books (on search results page and individual books page, which requries calling the API). 
+- Sorting and filters.
