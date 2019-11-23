@@ -7,71 +7,74 @@
 </head>
 
 <body>
-    <% include ../partials/nav.ejs %>
-    <main>
-        <div class="container">
-            <div class="z-depth-5 center-align teal lighten-4 search">
-                <h3>Search the Bibliodome Library</h3>
-                <div class="row">
-                    <form class="col s12" action="/books/results" method="POST">
-                        <div class="input-field col s6">
-                            <input type="text" name="title" class="validate" id="title" placeholder="Book Title">
-                            <label class="search" for="title">Book Title</label>
-                        </div>
-                        <div class="input-field col s4">
-                            <input type="text" name="author" id="author" placeholder="Book Author">
-                            <label class="search" for="author">Book Author</label>
-                        </div>
-                        <div class="col s2 valign-wrapper">
-                            <p>
-                                <button class="btn waves-effect waves-light" type="submit" name="action">Search
-                                    <i class="material-icons right">send</i>
-                                </button>
-                            </p>
-                        </div>
-                    </form>
+    <div class="wrapper">
+        <% include ../partials/nav.ejs %>
+        <main>
+            <div class="container">
+                <div class="z-depth-5 center-align teal lighten-4">
+                    <h3>Search the Bibliodome Library</h3>
+                    <div class="row">
+                        <form class="col s12" action="/books/results" method="POST">
+                            <div class="input-field col s6">
+                                <input type="text" name="maintitle">
+                                <label class="search" for="maintitle">Book Title</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <input type="text" name="mainauthor">
+                                <label class="search" for="mainauthor">Book Author</label>
+                            </div>
+                            <div class="col s2 valign-wrapper">
+                                <p>
+                                    <button class="btn waves-effect waves-light" type="submit" name="action">Search
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <h1>Search Results</h1>
-            <div class="row rp">
-                <div class="col s12 m6">
-                    <% for (let i = 0; i < data.items.length; i++) { %>
-                    <div class="card horizontal teal lighten-5">
-                        <div class="card-image">
-                            <a href="/books/<%=data.items[i].id%>/rate">
-                                <% if (data.items[i].volumeInfo.hasOwnProperty('imageLinks')) { %>
-                                <img src="<%= data.items[i].volumeInfo.imageLinks.thumbnail %>" class="card-img" />
-                                <%} else { %>
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
-                                    style="width:150px;" />
-                                <% } %>
-                            </a>
-                        </div>
-                        <div class="card-stacked">
-                            <div class="card-content">
-                                <h5> <a href="/books/<%=data.items[i].id%>/rate">
-                                        <%= data.items[i].volumeInfo.title %></a></h5>
-                                <div class="book-description-rp">
-                                    <%= data.items[i].volumeInfo.description %>
-                                </div>
-                                <h6>Author: <%= data.items[i].volumeInfo.authors %></h6>
-                                <div>
-                                    <a class="btn" href="/books/<%=data.items[i].id%>/rate">
-                                        <i class="material-icons left">rate_review</i>Rate this book!
-                                    </a>
+                <h1>Search Results</h1>
+                <div class="row rp">
+                    <div class="col s12 m6">
+                        <% for (let i = 0; i < data.items.length; i++) { %>
+                        <div class="card horizontal teal lighten-5">
+                            <div class="card-image">
+                                <a href="/books/<%=data.items[i].id%>/rate">
+                                    <% if (data.items[i].volumeInfo.hasOwnProperty('imageLinks')) { %>
+                                    <img src="<%= data.items[i].volumeInfo.imageLinks.thumbnail %>" class="card-img" />
+                                    <%} else { %>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+                                        style="width:150px;" />
+                                    <% } %>
+                                </a>
+                            </div>
+                            <div class="card-stacked">
+                                <div class="card-content">
+                                    <h5> <a href="/books/<%=data.items[i].id%>/rate">
+                                            <%= data.items[i].volumeInfo.title %></a></h5>
+                                    <div class="book-description-rp">
+                                        <%= data.items[i].volumeInfo.description %>
+                                    </div>
+                                    <h6>Author: <%= data.items[i].volumeInfo.authors %></h6>
+                                    <div>
+                                        <a class="btn" href="/books/<%=data.items[i].id%>/rate">
+                                            <i class="material-icons left">rate_review</i>Rate this book!
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <% if (i === 4) { %>
                     </div>
-                    <% if (i === 4) { %>
+                    <div class="col s12 m6">
+                        <% } %>
+                        <% } %>
+                    </div>
                 </div>
-                <div class="col s12 m6">
-                    <% } %> <%}%>
-        </div>
-      </div>
+            </div>
+        </main>
+        <% include ../partials/footer.ejs %>
     </div>
-</main>
-    <% include ../partials/footer.ejs %>
 </body>
 
 </html>
