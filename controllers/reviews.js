@@ -27,19 +27,43 @@ reviews.get("/:id/edit-review", (req, res) => {
 });
 
 reviews.put("/:id/edit", (req, res) => {
-  Book.findOneAndUpdate({ id: req.params.id }, (err, foundBook) => {
-    Review.findOneAndUpdate(
-      { reviewer: req.session.currentUser._id, book: foundBook._id },
-      {
-        $set: {
-          rating: req.body.stars,
-          review: req.body.review
-        }
-      },
-      (err, review) => {}
+  let x;
+  Book.findOne({ id: req.params.id }, (err, b) => {
+    console.log(b);
+    Review.findOne(
+      { reviewer: req.session.currentUser._id, book: b._id },
+      (err, r) => {
+        console.log(r);
+        let calc = b.rating * b.ratingCount;
+        console.log(calc);
+        console.log(r.rating);
+        console.log(req.body.stars);
+        let y =
+          parseFloat(calc) - parseFloat(r.rating) + parseFloat(req.body.stars);
+        console.log(y);
+        let z = parseFloat(y) / parseFloat(b.ratingCount);
+        console.log(z);
+        Book.findOneAndUpdate(
+          { _id: b._id },
+          {
+            $set: { rating: z }
+          },
+          err => {
+            Review.updateOne(
+              { reviewer: req.session.currentUser._id, book: b._id },
+              {
+                rating: req.body.stars,
+                review: req.body.review
+              },
+              (err, review) => {
+                res.redirect("/books/" + req.params.id);
+              }
+            );
+          }
+        );
+      }
     );
   });
-  res.redirect("/books/" + req.params.id);
 });
 
 reviews.put("/:id/new", async (req, res) => {
@@ -97,15 +121,9 @@ reviews.delete("/:rd/:id", async (req, res) => {
   await Review.findOneAndDelete(
     { _id: req.params.rd },
     async (err, deletedReview) => {
-      console.log("DELETED REVIEW IS " + deletedReview);
-      console.log("1 Deleting");
       if (err) console.log(err.message);
       console.log("Review has been deleted!");
       Book.findOne({ id: req.params.id }, async (err, result) => {
-        console.log("2 Finding");
-        console.log("REQ PARAMS ID IS " + req.params.id);
-        console.log("RESULT IS " + result);
-        console.log("DELETED REVIEW IS " + deletedReview);
         if (err) console.log(err.message);
         if (result.rating !== null) {
           newRating =
@@ -113,8 +131,6 @@ reviews.delete("/:rd/:id", async (req, res) => {
               parseFloat(deletedReview.rating)) /
             (parseFloat(result.ratingCount) - 1);
         }
-        console.log("New Rating is ", newRating);
-        console.log(typeof newRating);
         Book.updateOne(
           { id: req.params.id },
           {

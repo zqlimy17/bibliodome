@@ -55,10 +55,13 @@ users.post("/", (req, res) => {
 });
 
 users.put("/:id/edit", (req, res) => {
-  User.findByIdAndUpdate(req.params.id, req.body, (err, foundUser) => {
-    res.redirect("/users/profile/" + req.session.currentUser.username);
-    // res.redirect("/users/profile/" + req.session.currentUser.username);
-  });
+  User.findByIdAndUpdate(
+    { _id: req.params.id },
+    { name: req.body.name },
+    (err, foundUser) => {
+      res.redirect("/users/profile/" + req.session.currentUser.username);
+    }
+  );
 });
 
 module.exports = users;

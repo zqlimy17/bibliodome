@@ -198,6 +198,16 @@ label.star:before {
     }
 }
 
+.modal-content.quicksearch {
+    input {
+        text-align: left;
+    }
+
+    .lh0 {
+        line-height: 1;
+    }
+}
+
 // member
 .member {
     a {
@@ -243,4 +253,13 @@ blockquote {
 
 .deleteReview {
     display: inline-flex;
+}
+
+
+
+
+.search {
+    ::-webkit-input-placeholder {
+        color: #009688 !important;
+    }
 }

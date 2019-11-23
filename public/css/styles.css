@@ -175,6 +175,14 @@ label.star:before {
   line-height: 1;
 }
 
+.modal-content.quicksearch input {
+  text-align: left;
+}
+
+.modal-content.quicksearch .lh0 {
+  line-height: 1;
+}
+
 .member a {
   color: #4db6ac;
 }
@@ -224,5 +232,9 @@ blockquote {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
+}
+
+.search ::-webkit-input-placeholder {
+  color: #009688 !important;
 }
 /*# sourceMappingURL=styles.css.map */

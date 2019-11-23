@@ -28,8 +28,7 @@
                         <blockquote>Username: <%= profileUser%></blockquote>
                         <% if (currentUser) { %>
                         <% if (profileUser === currentUser.username) { %>
-                        <button class="btn" href="/users/profile/<%=currentUser.username%>/edit">Edit
-                            Profile</button>
+                        <a class="btn" href="/users/profile/<%=currentUser.username%>/edit">Edit Profile</a>
                         <% } %>
                         <% } %>
                     </div>
