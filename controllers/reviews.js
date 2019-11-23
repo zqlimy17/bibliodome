@@ -27,22 +27,14 @@ reviews.get("/:id/edit-review", (req, res) => {
 });
 
 reviews.put("/:id/edit", (req, res) => {
-  let x;
   Book.findOne({ id: req.params.id }, (err, b) => {
-    console.log(b);
     Review.findOne(
       { reviewer: req.session.currentUser._id, book: b._id },
       (err, r) => {
-        console.log(r);
         let calc = b.rating * b.ratingCount;
-        console.log(calc);
-        console.log(r.rating);
-        console.log(req.body.stars);
         let y =
           parseFloat(calc) - parseFloat(r.rating) + parseFloat(req.body.stars);
-        console.log(y);
         let z = parseFloat(y) / parseFloat(b.ratingCount);
-        console.log(z);
         Book.findOneAndUpdate(
           { _id: b._id },
           {
@@ -68,18 +60,65 @@ reviews.put("/:id/edit", (req, res) => {
 
 reviews.put("/:id/new", async (req, res) => {
   let url = await `https://www.googleapis.com/books/v1/volumes/${req.params.id}`;
-  console.log(url);
   await request(url, { json: true }, async (error, response, data) => {
     let newRating;
     Book.findOne({ id: req.params.id }, async (err, result) => {
-      console.log(result);
-      console.log(result.rating);
       if (err) console.log(err.message);
-      if (result.rating !== null) {
+      if (result !== null) {
         newRating =
           (parseFloat(req.body.stars) +
             parseFloat(result.rating) * parseFloat(result.ratingCount)) /
           (parseFloat(result.ratingCount) + 1);
+        Book.findOneAndUpdate(
+          {
+            id: req.params.id
+          },
+          {
+            $set: { rating: newRating },
+            $inc: {
+              ratingCount: 1
+            }
+          },
+          (err, bookx) => {
+            User.updateOne(
+              {
+                _id: req.session.currentUser._id
+              },
+              {
+                $inc: {
+                  ratingCount: 1
+                }
+              },
+              (err, uuser) => {
+                if (err) console.log(err.message);
+              }
+            );
+            Review.findOne(
+              { _id: req.session.currentUser._id, book: bookx._id },
+              (err, ureview) => {
+                if (!ureview) {
+                  Review.create({
+                    rating: req.body.stars,
+                    review: req.body.review,
+                    reviewer: req.session.currentUser._id,
+                    book: bookx._id
+                  });
+                } else {
+                  Review.updateOne(
+                    { _id: req.session.currentUser._id, book: bookx._id },
+                    {
+                      rating: req.body.stars,
+                      review: req.body.review
+                    },
+                    (err, xreview) => {}
+                  );
+                }
+              }
+            );
+            if (err) console.log(err.message);
+          }
+        );
+      } else {
         Book.findOneAndUpdate(
           {
             id: req.params.id
@@ -91,7 +130,7 @@ reviews.put("/:id/new", async (req, res) => {
             description: data.volumeInfo.description,
             img: data.volumeInfo.imageLinks.thumbnail,
             author: data.volumeInfo.authors,
-            $set: { rating: newRating },
+            $set: { rating: req.body.stars },
             $inc: {
               ratingCount: 1
             }
@@ -101,16 +140,29 @@ reviews.put("/:id/new", async (req, res) => {
             new: true
           },
           (err, book) => {
+            User.updateOne(
+              {
+                _id: req.session.currentUser._id
+              },
+              {
+                $inc: {
+                  ratingCount: 1
+                }
+              },
+              (err, uuser) => {
+                if (err) console.log(err.message);
+              }
+            );
             Review.create({
               rating: req.body.stars,
               review: req.body.review,
               reviewer: req.session.currentUser._id,
               book: book._id
             });
+            if (err) console.log(err.message);
           }
         );
       }
-      console.log(newRating);
     });
   });
   res.redirect("/users/profile/" + req.session.currentUser.username);
@@ -122,29 +174,53 @@ reviews.delete("/:rd/:id", async (req, res) => {
     { _id: req.params.rd },
     async (err, deletedReview) => {
       if (err) console.log(err.message);
-      console.log("Review has been deleted!");
       Book.findOne({ id: req.params.id }, async (err, result) => {
         if (err) console.log(err.message);
-        if (result.rating !== null) {
-          newRating =
-            (parseFloat(result.rating) * parseFloat(result.ratingCount) -
-              parseFloat(deletedReview.rating)) /
-            (parseFloat(result.ratingCount) - 1);
+        if (result.ratingCount > 1) {
+          if (result.rating !== null) {
+            newRating =
+              (parseFloat(result.rating) * parseFloat(result.ratingCount) -
+                parseFloat(deletedReview.rating)) /
+              (parseFloat(result.ratingCount) - 1);
+          }
+          Book.updateOne(
+            { id: req.params.id },
+            {
+              $set: { rating: newRating },
+              $inc: { ratingCount: -1 }
+            },
+            (err, asd) => {
+              if (err) console.log(err.message);
+            }
+          );
+        } else {
+          Book.updateOne(
+            { id: req.params.id },
+            {
+              $set: { rating: 0 },
+              $inc: { ratingCount: -1 }
+            },
+            (err, asd) => {
+              if (err) console.log(err.message);
+            }
+          );
         }
-        Book.updateOne(
-          { id: req.params.id },
+        User.updateOne(
           {
-            $set: { rating: newRating },
-            $inc: { ratingCount: -1 }
+            _id: req.session.currentUser._id
           },
-          (err, asd) => {
+          {
+            $inc: {
+              ratingCount: -1
+            }
+          },
+          (err, uuser) => {
             if (err) console.log(err.message);
           }
         );
       });
     }
   );
-  console.log("4");
   res.redirect("/books/" + req.params.id);
 });
 

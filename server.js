@@ -28,13 +28,10 @@ mongoose.set("useUnifiedTopology", true);
 
 //Connect to Mongoose
 mongoose.connect(mongoURI, { useNewUrlParser: true }, () => {
-  console.log("\n ~~~~~ \n");
   console.log("The connection with mongod is established.");
-  console.log("\n ~~~~~ \n");
 });
 
 // Connection Error/Success
-// Define callback functions for various events
 db.on("error", err => console.log(err.message + " is mongod not running?"));
 db.on("connected", () => console.log("mongo connected: ", mongoURI));
 db.on("disconnected", () => console.log("mongo disconnected"));
@@ -67,7 +64,6 @@ app.get("/", async (req, res) => {
       book,
       currentUser: req.session.currentUser
     });
-    // console.log(req.session.currentUser);
   });
 });
 
