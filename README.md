@@ -4,7 +4,7 @@
 
 ## About the App
 
-[Bibliodome] is a RESTful API online library application that allow users to search for books and rate them. Their ratings will be available to the public and can be edited or deleted.
+[Bibliodome] is a RESTful API online library that allows users to search for books and rate them. Their ratings will be available to the public and can be edited or deleted.
 
 ## MVC
 [Bibliodome] makes use of 4 controllers and 3 models; Reviews, Books, Users, and Sessions.
